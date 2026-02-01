@@ -1,775 +1,1412 @@
 <!DOCTYPE html>
+
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XDT: Extended Digital Twin System Architecture</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f8fafc;
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* Title */
-        .main-title {
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-        }
-
-        .main-subtitle {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        /* Layer Container */
-        .layer {
-            position: relative;
-            margin-bottom: 12px;
-        }
-
-        .layer-box {
-            border-radius: 12px;
-            padding: 20px 24px;
-            position: relative;
-        }
-
-        .layer-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 6px;
-        }
-
-        .layer-subtitle {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        .layer-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            font-size: 0.75rem;
-            color: #444;
-        }
-
-        .layer-features span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .layer-features span::before {
-            content: '■';
-            font-size: 0.5rem;
-            color: #666;
-        }
-
-        /* Control Panel - Light Blue */
-        .control-layer {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border: 1px solid #90caf9;
-        }
-
-        /* Components Row */
-        .components-row {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 16px 0;
-            flex-wrap: wrap;
-        }
-
-        .component-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .component-box {
-            background: white;
-            border-radius: 10px;
-            padding: 16px 24px;
-            text-align: center;
-            min-width: 160px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-        }
-
-        .component-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        }
-
-        .component-box h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-
-        .component-box p {
-            font-size: 0.7rem;
-            color: #666;
-        }
-
-        .component-note {
-            font-size: 0.7rem;
-            color: #e65100;
-            font-weight: 500;
-            background: #fff3e0;
-            padding: 4px 10px;
-            border-radius: 4px;
-            max-width: 180px;
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        .component-note.blue {
-            color: #1565c0;
-            background: #e3f2fd;
-        }
-
-        .component-note.purple {
-            color: #7b1fa2;
-            background: #f3e5f5;
-        }
-
-        .component-note.green {
-            color: #2e7d32;
-            background: #e8f5e9;
-        }
-
-        /* Component Colors */
-        .component-yellow {
-            border: 2px solid #ffd54f;
-            background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
-        }
-
-        .component-orange {
-            border: 2px solid #ffb74d;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-        }
-
-        .component-blue {
-            border: 2px solid #64b5f6;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        }
-
-        .component-purple {
-            border: 2px solid #ba68c8;
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-        }
-
-        /* SpaceTime Layer - Gray */
-        .spacetime-layer {
-            background: linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%);
-            border: 1px solid #b0bec5;
-        }
-
-        .spacetime-features {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .spacetime-feature {
-            background: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .spacetime-feature .icon {
-            font-size: 1rem;
-        }
-
-        /* NSS Protocol - Dashed Purple */
-        .nss-layer {
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-            border: 2.5px dashed #ce93d8;
-            text-align: center;
-            padding: 14px 20px;
-        }
-
-        .nss-layer h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #7b1fa2;
-            margin-bottom: 4px;
-        }
-
-        .nss-layer p {
-            font-size: 0.7rem;
-            color: #8e24aa;
-        }
-
-        /* Node Container - Light Green */
-        .node-container {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            border: 2px solid #81c784;
-            padding: 24px;
-        }
-
-        .node-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1a1a2e;
-            text-align: center;
-            margin-bottom: 6px;
-        }
-
-        .node-subtitle {
-            font-size: 0.75rem;
-            color: #2e7d32;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        /* AgentX Box */
-        .agentx-box {
-            background: white;
-            border: 2px solid #a5d6a7;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .agentx-header {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .agentx-header h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #1a1a2e;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .agentx-header h4 .badge {
-            background: #4caf50;
-            color: white;
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        .agentx-header p {
-            font-size: 0.75rem;
-            color: #e65100;
-            margin-top: 4px;
-        }
-
-        .agentx-functions {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .agentx-func {
-            background: #f5f5f5;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px 16px;
-            text-align: center;
-            min-width: 140px;
-        }
-
-        .agentx-func h5 {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .agentx-func p {
-            font-size: 0.65rem;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        /* Target Row */
-        .target-row {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        .target-box {
-            border-radius: 10px;
-            padding: 16px 30px;
-            text-align: center;
-            min-width: 200px;
-            position: relative;
-        }
-
-        .target-box h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .target-box p {
-            font-size: 0.7rem;
-            color: #555;
-        }
-
-        .target-box .label {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .target-sim {
-            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
-            border: 2px solid #4fc3f7;
-        }
-
-        .target-sim h4 {
-            color: #0277bd;
-        }
-
-        .target-sim .label {
-            color: #0277bd;
-            border: 1px solid #4fc3f7;
-        }
-
-        .target-real {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border: 2px solid #ffb74d;
-        }
-
-        .target-real h4 {
-            color: #e65100;
-        }
-
-        .target-real .label {
-            color: #e65100;
-            border: 1px solid #ffb74d;
-        }
-
-        /* Arrows */
-        .arrow-section {
-            display: flex;
-            justify-content: center;
-            padding: 8px 0;
-            position: relative;
-        }
-
-        .arrow-down {
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 12px solid #78909c;
-        }
-
-        .arrow-line {
-            width: 2px;
-            height: 20px;
-            background: #78909c;
-            margin-bottom: -2px;
-        }
-
-        .arrow-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .arrow-label {
-            font-size: 0.7rem;
-            color: #546e7a;
-            margin-left: 15px;
-            background: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        /* Side Annotations */
-        .side-note {
-            position: absolute;
-            font-size: 0.7rem;
-            padding: 8px 12px;
-            border-radius: 6px;
-            max-width: 160px;
-            line-height: 1.5;
-        }
-
-        .side-note.left {
-            left: -180px;
-            text-align: right;
-        }
-
-        .side-note.right {
-            right: -180px;
-            text-align: left;
-        }
-
-        .side-note.orange {
-            background: #fff3e0;
-            color: #e65100;
-            border: 1px solid #ffcc80;
-        }
-
-        .side-note.blue {
-            background: #e3f2fd;
-            color: #1565c0;
-            border: 1px solid #90caf9;
-        }
-
-        .side-note.purple {
-            background: #f3e5f5;
-            color: #7b1fa2;
-            border: 1px solid #ce93d8;
-        }
-
-        .side-note.green {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-        }
-
-        /* Feedback Loop */
-        .feedback-section {
-            margin-top: 20px;
-            padding: 16px 20px;
-            background: linear-gradient(90deg, #fce4ec, #f3e5f5, #e8eaf6, #e3f2fd);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .feedback-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .feedback-flow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            font-size: 0.75rem;
-            color: #555;
-        }
-
-        .feedback-flow .step {
-            background: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        .feedback-flow .arrow {
-            color: #9c27b0;
-            font-weight: bold;
-        }
-
-        /* Gap Section */
-        .gap-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 16px;
-            padding: 12px;
-            background: rgba(255,255,255,0.7);
-            border-radius: 8px;
-        }
-
-        .gap-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-        }
-
-        .gap-indicator .line {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #4fc3f7, #ffb74d);
-            border-radius: 2px;
-        }
-
-        .gap-indicator span {
-            color: #666;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .side-note {
-                position: relative;
-                left: auto !important;
-                right: auto !important;
-                margin: 8px auto;
-                text-align: center;
-            }
-
-            .components-row {
-                gap: 20px;
-            }
-
-            .component-box {
-                min-width: 140px;
-                padding: 14px 18px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .components-row, .target-row, .agentx-functions {
-                flex-direction: column;
-                align-items: center;
-            }
+
+    <head>
+
+            <meta charset="UTF-8">
+
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <title>XDT: Extended Digital Twin System Architecture</title>
+    
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+        <style>
+
+                    * {
+
+                                    margin: 0;
+
+                                    padding: 0;
+
+                                    box-sizing: border-box;
+
+                    }
+
+                    body {
+
+                                    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+
+                                    background: #f8fafc;
+
+                                    min-height: 100vh;
+
+                                    padding: 30px 20px;
+
+                    }
+
+                    .container {
+
+                                    max-width: 1100px;
+
+                                    margin: 0 auto;
+
+                    }
+
+                    /* Title */
+
+                    .main-title {
+
+                                    text-align: center;
+
+                                    font-size: 1.6rem;
+
+                                    font-weight: 700;
+
+                                    color: #1a1a2e;
+
+                                    margin-bottom: 10px;
+
+                    }
+
+                    .main-subtitle {
+
+                                    text-align: center;
+
+                                    font-size: 0.9rem;
+
+                                    color: #666;
+
+                                    margin-bottom: 30px;
+
+                    }
+
+                    /* Layer Container */
+
+                    .layer {
+
+                                    position: relative;
+
+                                    margin-bottom: 12px;
+
+                    }
+
+                    .layer-box {
+
+                                    border-radius: 12px;
+
+                                    padding: 20px 24px;
+
+                                    position: relative;
+
+                    }
+
+                    .layer-title {
+
+                                    font-size: 1rem;
+
+                                    font-weight: 600;
+
+                                    color: #1a1a2e;
+
+                                    margin-bottom: 6px;
+
+                    }
+
+                    .layer-subtitle {
+
+                                    font-size: 0.8rem;
+
+                                    color: #666;
+
+                                    margin-bottom: 12px;
+
+                    }
+
+                    .layer-features {
+
+                                    display: flex;
+
+                                    flex-wrap: wrap;
+
+                                    gap: 12px 20px;
+
+                                    font-size: 0.75rem;
+
+                                    color: #444;
+
+                    }
+
+                    .layer-features span {
+
+                                    display: flex;
+
+                                    align-items: center;
+
+                                    gap: 5px;
+
+                    }
+
+                    .layer-features span::before {
+
+                                    content: '■';
+
+                                    font-size: 0.5rem;
+
+                                    color: #666;
+
+                    }
+
+                    /* Control Panel - Light Blue */
+
+                    .control-layer {
+
+                                    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+
+                                    border: 1px solid #90caf9;
+
+                    }
+
+                    /* Components Row */
+
+                    .components-row {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    gap: 40px;
+
+                                    margin: 16px 0;
+
+                                    flex-wrap: wrap;
+
+                    }
+
+                    .component-group {
+
+                                    display: flex;
+
+                                    flex-direction: column;
+
+                                    align-items: center;
+
+                                    gap: 8px;
+
+                    }
+
+                    .component-box {
+
+                                    background: white;
+
+                                    border-radius: 10px;
+
+                                    padding: 16px 24px;
+
+                                    text-align: center;
+
+                                    min-width: 160px;
+
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+                                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+                                    cursor: pointer;
+
+                    }
+
+                    .component-box:hover {
+
+                                    transform: translateY(-3px);
+
+                                    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+
+                    }
+
+                    .component-box h4 {
+
+                                    font-size: 0.95rem;
+
+                                    font-weight: 600;
+
+                                    color: #1a1a2e;
+
+                                    margin-bottom: 4px;
+
+                    }
+
+                    .component-box p {
+
+                                    font-size: 0.7rem;
+
+                                    color: #666;
+
+                    }
+
+                    .component-note {
+
+                                    font-size: 0.7rem;
+
+                                    color: #e65100;
+
+                                    font-weight: 500;
+
+                                    background: #fff3e0;
+
+                                    padding: 4px 10px;
+
+                                    border-radius: 4px;
+
+                                    max-width: 180px;
+
+                                    text-align: center;
+
+                                    line-height: 1.4;
+
+                    }
+
+                    .component-note.blue {
+
+                                    color: #1565c0;
+
+                                    background: #e3f2fd;
+
+                    }
+
+                    .component-note.purple {
+
+                                    color: #7b1fa2;
+
+                                    background: #f3e5f5;
+
+                    }
+
+                    .component-note.green {
+
+                                    color: #2e7d32;
+
+                                    background: #e8f5e9;
+
+                    }
+
+                    /* Component Colors */
+
+                    .component-yellow {
+
+                                    border: 2px solid #ffd54f;
+
+                                    background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
+
+                    }
+
+                    .component-orange {
+
+                                    border: 2px solid #ffb74d;
+
+                                    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+
+                    }
+
+                    .component-blue {
+
+                                    border: 2px solid #64b5f6;
+
+                                    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+
+                    }
+
+                    .component-purple {
+
+                                    border: 2px solid #ba68c8;
+
+                                    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+
+                    }
+
+                    /* SpaceTime Layer - Gray */
+
+                    .spacetime-layer {
+
+                                    background: linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%);
+
+                                    border: 1px solid #b0bec5;
+
+                    }
+
+                    .spacetime-features {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    gap: 30px;
+
+                                    margin-top: 12px;
+
+                                    flex-wrap: wrap;
+
+                    }
+
+                    .spacetime-feature {
+
+                                    background: white;
+
+                                    padding: 10px 16px;
+
+                                    border-radius: 8px;
+
+                                    font-size: 0.75rem;
+
+                                    color: #333;
+
+                                    display: flex;
+
+                                    align-items: center;
+
+                                    gap: 6px;
+
+                    }
+
+                    .spacetime-feature .icon {
+
+                                    font-size: 1rem;
+
+                    }
+
+                    /* NSS Protocol - Dashed Purple */
+
+                    .nss-layer {
+
+                                    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+
+                                    border: 2.5px dashed #ce93d8;
+
+                                    text-align: center;
+
+                                    padding: 14px 20px;
+
+                    }
+
+                    .nss-layer h4 {
+
+                                    font-size: 0.9rem;
+
+                                    font-weight: 600;
+
+                                    color: #7b1fa2;
+
+                                    margin-bottom: 4px;
+
+                    }
+
+                    .nss-layer p {
+
+                                    font-size: 0.7rem;
+
+                                    color: #8e24aa;
+
+                    }
+
+                    /* Node Container - Light Green */
+
+                    .node-container {
+
+                                    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+
+                                    border: 2px solid #81c784;
+
+                                    padding: 24px;
+
+                    }
+
+                    .node-title {
+
+                                    font-size: 1rem;
+
+                                    font-weight: 600;
+
+                                    color: #1a1a2e;
+
+                                    text-align: center;
+
+                                    margin-bottom: 6px;
+
+                    }
+
+                    .node-subtitle {
+
+                                    font-size: 0.75rem;
+
+                                    color: #2e7d32;
+
+                                    text-align: center;
+
+                                    margin-bottom: 16px;
+
+                    }
+
+                    /* AgentX Box */
+
+                    .agentx-box {
+
+                                    background: white;
+
+                                    border: 2px solid #a5d6a7;
+
+                                    border-radius: 12px;
+
+                                    padding: 20px;
+
+                                    margin-bottom: 20px;
+
+                    }
+
+                    .agentx-header {
+
+                                    text-align: center;
+
+                                    margin-bottom: 16px;
+
+                    }
+
+                    .agentx-header h4 {
+
+                                    font-size: 1rem;
+
+                                    font-weight: 700;
+
+                                    color: #1a1a2e;
+
+                                    display: inline-flex;
+
+                                    align-items: center;
+
+                                    gap: 8px;
+
+                    }
+
+                    .agentx-header h4 .badge {
+
+                                    background: #4caf50;
+
+                                    color: white;
+
+                                    font-size: 0.65rem;
+
+                                    padding: 2px 8px;
+
+                                    border-radius: 4px;
+
+                                    font-weight: 500;
+
+                    }
+
+                    .agentx-header p {
+
+                                    font-size: 0.75rem;
+
+                                    color: #e65100;
+
+                                    margin-top: 4px;
+
+                    }
+
+                    .agentx-functions {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    gap: 12px;
+
+                                    flex-wrap: wrap;
+
+                    }
+
+                    .agentx-func {
+
+                                    background: #f5f5f5;
+
+                                    border: 1px solid #e0e0e0;
+
+                                    border-radius: 8px;
+
+                                    padding: 12px 16px;
+
+                                    text-align: center;
+
+                                    min-width: 140px;
+
+                    }
+
+                    .agentx-func h5 {
+
+                                    font-size: 0.8rem;
+
+                                    font-weight: 600;
+
+                                    color: #333;
+
+                                    margin-bottom: 4px;
+
+                    }
+
+                    .agentx-func p {
+
+                                    font-size: 0.65rem;
+
+                                    color: #666;
+
+                                    line-height: 1.4;
+
+                    }
+
+                    /* Target Row */
+
+                    .target-row {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    gap: 30px;
+
+                    }
+
+                    .target-box {
+
+                                    border-radius: 10px;
+
+                                    padding: 16px 30px;
+
+                                    text-align: center;
+
+                                    min-width: 200px;
+
+                                    position: relative;
+
+                    }
+
+                    .target-box h4 {
+
+                                    font-size: 0.95rem;
+
+                                    font-weight: 600;
+
+                                    margin-bottom: 6px;
+
+                    }
+
+                    .target-box p {
+
+                                    font-size: 0.7rem;
+
+                                    color: #555;
+
+                    }
+
+                    .target-box .label {
+
+                                    position: absolute;
+
+                                    top: -10px;
+
+                                    left: 50%;
+
+                                    transform: translateX(-50%);
+
+                                    background: white;
+
+                                    padding: 2px 10px;
+
+                                    border-radius: 4px;
+
+                                    font-size: 0.7rem;
+
+                                    font-weight: 600;
+
+                                    white-space: nowrap;
+
+                    }
+
+                    .target-sim {
+
+                                    background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+
+                                    border: 2px solid #4fc3f7;
+
+                    }
+
+                    .target-sim h4 {
+
+                                    color: #0277bd;
+
+                    }
+
+                    .target-sim .label {
+
+                                    color: #0277bd;
+
+                                    border: 1px solid #4fc3f7;
+
+                    }
+
+                    .target-real {
+
+                                    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+
+                                    border: 2px solid #ffb74d;
+
+                    }
+
+                    .target-real h4 {
+
+                                    color: #e65100;
+
+                    }
+
+                    .target-real .label {
+
+                                    color: #e65100;
+
+                                    border: 1px solid #ffb74d;
+
+                    }
+
+                    /* Arrows */
+
+                    .arrow-section {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    padding: 8px 0;
+
+                                    position: relative;
+
+                    }
+
+                    .arrow-down {
+
+                                    width: 0;
+
+                                    height: 0;
+
+                                    border-left: 10px solid transparent;
+
+                                    border-right: 10px solid transparent;
+
+                                    border-top: 12px solid #78909c;
+
+                    }
+
+                    .arrow-up {
+
+                                    width: 0;
+
+                                    height: 0;
+
+                                    border-left: 10px solid transparent;
+
+                                    border-right: 10px solid transparent;
+
+                                    border-bottom: 12px solid #78909c;
+
+                    }
+
+                    .arrow-line {
+
+                                    width: 2px;
+
+                                    height: 20px;
+
+                                    background: #78909c;
+
+                                    margin-bottom: -2px;
+
+                    }
+
+                    .arrow-line-short {
+
+                                    width: 2px;
+
+                                    height: 10px;
+
+                                    background: #78909c;
+
+                    }
+
+                    .arrow-container {
+
+                                    display: flex;
+
+                                    flex-direction: column;
+
+                                    align-items: center;
+
+                    }
+
+                    .arrow-bidirectional {
+
+                                    display: flex;
+
+                                    flex-direction: column;
+
+                                    align-items: center;
+
+                                    gap: 2px;
+
+                    }
+
+                    .arrow-label {
+
+                                    font-size: 0.7rem;
+
+                                    color: #546e7a;
+
+                                    margin-left: 15px;
+
+                                    background: white;
+
+                                    padding: 2px 8px;
+
+                                    border-radius: 4px;
+
+                                    white-space: nowrap;
+
+                    }
+
+                    /* Side Annotations */
+
+                    .side-note {
+
+                                    position: absolute;
+
+                                    font-size: 0.7rem;
+
+                                    padding: 8px 12px;
+
+                                    border-radius: 6px;
+
+                                    max-width: 160px;
+
+                                    line-height: 1.5;
+
+                    }
+
+                    .side-note.left {
+
+                                    left: -180px;
+
+                                    text-align: right;
+
+                    }
+
+                    .side-note.right {
+
+                                    right: -180px;
+
+                                    text-align: left;
+
+                    }
+
+                    .side-note.orange {
+
+                                    background: #fff3e0;
+
+                                    color: #e65100;
+
+                                    border: 1px solid #ffcc80;
+
+                    }
+
+                    .side-note.blue {
+
+                                    background: #e3f2fd;
+
+                                    color: #1565c0;
+
+                                    border: 1px solid #90caf9;
+
+                    }
+
+                    .side-note.purple {
+
+                                    background: #f3e5f5;
+
+                                    color: #7b1fa2;
+
+                                    border: 1px solid #ce93d8;
+
+                    }
+
+                    .side-note.green {
+
+                                    background: #e8f5e9;
+
+                                    color: #2e7d32;
+
+                                    border: 1px solid #a5d6a7;
+
+                    }
+
+                    /* Feedback Loop */
+
+                    .feedback-section {
+
+                                    margin-top: 20px;
+
+                                    padding: 16px 20px;
+
+                                    background: linear-gradient(90deg, #fce4ec, #f3e5f5, #e8eaf6, #e3f2fd);
+
+                                    border-radius: 12px;
+
+                                    text-align: center;
+
+                    }
+
+                    .feedback-title {
+
+                                    font-size: 0.85rem;
+
+                                    font-weight: 600;
+
+                                    color: #333;
+
+                                    margin-bottom: 8px;
+
+                    }
+
+                    .feedback-flow {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    align-items: center;
+
+                                    gap: 12px;
+
+                                    flex-wrap: wrap;
+
+                                    font-size: 0.75rem;
+
+                                    color: #555;
+
+                    }
+
+                    .feedback-flow .step {
+
+                                    background: white;
+
+                                    padding: 6px 12px;
+
+                                    border-radius: 6px;
+
+                                    font-weight: 500;
+
+                    }
+
+                    .feedback-flow .arrow {
+
+                                    color: #9c27b0;
+
+                                    font-weight: bold;
+
+                    }
+
+                    /* Gap Section */
+
+                    .gap-section {
+
+                                    display: flex;
+
+                                    justify-content: center;
+
+                                    align-items: center;
+
+                                    gap: 20px;
+
+                                    margin-top: 16px;
+
+                                    padding: 12px;
+
+                                    background: rgba(255,255,255,0.7);
+
+                                    border-radius: 8px;
+
+                    }
+
+                    .gap-indicator {
+
+                                    display: flex;
+
+                                    align-items: center;
+
+                                    gap: 8px;
+
+                                    font-size: 0.75rem;
+
+                    }
+
+                    .gap-indicator .line {
+
+                                    width: 60px;
+
+                                    height: 3px;
+
+                                    background: linear-gradient(90deg, #4fc3f7, #ffb74d);
+
+                                    border-radius: 2px;
+
+                    }
+
+                    .gap-indicator span {
+
+                                    color: #666;
+
+                    }
+
+                    /* Responsive */
+
+                    @media (max-width: 900px) {
+
+                                    .side-note {
+
+                                                        position: relative;
+
+                                                        left: auto !important;
+
+                                                        right: auto !important;
+
+                                                        margin: 8px auto;
+
+                                                        text-align: center;
+
+                                    }
+
+                                    .components-row {
+
+                                                        gap: 20px;
+
+                                    }
+
+                                    .component-box {
+
+                                                        min-width: 140px;
+
+                                                        padding: 14px 18px;
+
+                                    }
+
+                    }
+
+                    @media (max-width: 600px) {
+
+                                    .components-row, .target-row, .agentx-functions {
+
+                                                        flex-direction: column;
+
+                                                        align-items: center;
+
+                                    }
+
+
+
+                                    .component-box, .target-box, .agentx-func {
+
+                                                        width: 100%;
+
+                                                        max-width: 250px;
+
+                                    }
+
+                                    .spacetime-features {
+
+                                                        flex-direction: column;
+
+                                                        align-items: center;
+
+                                    }
+
+                    }
+
+                </style>
+
+    </head>
+
+    <body>
+
+            <div class="container">
+
+                        <h1 class="main-title">XDT: Extended Digital Twin System Architecture</h1>h1>
+
+                        <p class="main-subtitle">Command → Orchestration → Execution → Learning 순환 루프</p>p>
+
+                        <!-- Control Panel Layer -->
+
+                        <div class="layer">
+
+                                        <div class="layer-box control-layer">
+
+                                                            <h3 class="layer-title">XDT.ControlPanel (통합 제어판)</h3>h3>
+
+                                                            <p class="layer-subtitle">운영자가 전체 시스템을 제어하는 통합 허브</p>p>
+
+                                                            <div class="layer-features">
+
+                                                                                    <span>Human Manager Interface</span>
+                                                            
+                                                                                <span>Fleet Telemetry Monitoring</span>
+                                                            
+                                                                                <span>Operation Mode Selection (Human vs AI)</span>
+                                                            
+                                                                                <span>System Master Control</span>
+                                                            
+                                                            </div>div>
+                                        
+                                                        <div class="components-row" style="margin-top: 20px;">
+                                                        
+                                                                            <!-- XDT.Play -->
+                                                        
+                                                                            <div class="component-group">
+                                                                            
+                                                                                                    <div class="component-box component-yellow">
+                                                                                                    
+                                                                                                                                <h4>XDT.Play</h4>
+                                                                                                    
+                                                                                                                                <p>(Human Control)</p>
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                                                    <div class="component-note">
+                                                                                                    
+                                                                                                                                🎮 스타크래프트처럼<br/>사람이 직접 조작<br/>→ 기보(학습데이터) 생성
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                            </div>div>
+                                                        
+                                                                            <!-- XDT.LLM -->
+                                                        
+                                                                            <div class="component-group">
+                                                                            
+                                                                                                    <div class="component-box component-blue">
+                                                                                                    
+                                                                                                                                <h4>XDT.LLM</h4>
+                                                                                                    
+                                                                                                                                <p>(NLP → DSL)</p>
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                                                    <div class="component-note blue">
+                                                                                                    
+                                                                                                                                💬 자연어 → 시스템 언어<br/>"A구역 순찰해" →<br/>시나리오/규칙 생성
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                            </div>div>
+                                                        
+                                                                            <!-- XDT.PilotX -->
+                                                        
+                                                                            <div class="component-group">
+                                                                            
+                                                                                                    <div class="component-box component-orange">
+                                                                                                    
+                                                                                                                                <h4>XDT.PilotX</h4>
+                                                                                                    
+                                                                                                                                <p>(AI Autonomous Engine)</p>
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                                                    <div class="component-note">
+                                                                                                    
+                                                                                                                                🎖️ <strong>AI 사령관</strong> (1개)<br/>MCTS + 강화학습<br/>전체 유닛 자율 지휘
+                                                                                                    
+                                                                                                        </div>div>
+                                                                            
+                                                                            </div>div>
+                                                        
+                                                        </div>div>
+                                        
+                                        </div>div>
+                        
+                        </div>div>
             
-            .component-box, .target-box, .agentx-func {
-                width: 100%;
-                max-width: 250px;
-            }
-
-            .spacetime-features {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="main-title">XDT: Extended Digital Twin System Architecture</h1>
-        <p class="main-subtitle">Command → Orchestration → Execution → Learning 순환 루프</p>
-
-        <!-- Control Panel Layer -->
-        <div class="layer">
-            <div class="layer-box control-layer">
-                <h3 class="layer-title">XDT.ControlPanel (통합 제어판)</h3>
-                <p class="layer-subtitle">운영자가 전체 시스템을 제어하는 통합 허브</p>
-                <div class="layer-features">
-                    <span>Human Manager Interface</span>
-                    <span>Fleet Telemetry Monitoring</span>
-                    <span>Operation Mode Selection (Human vs AI)</span>
-                    <span>System Master Control</span>
-                </div>
-
-                <div class="components-row" style="margin-top: 20px;">
-                    <!-- XDT.Play -->
-                    <div class="component-group">
-                        <div class="component-box component-yellow">
-                            <h4>XDT.Play</h4>
-                            <p>(Human Control)</p>
-                        </div>
-                        <div class="component-note">
-                            🎮 스타크래프트처럼<br/>사람이 직접 조작<br/>→ 기보(학습데이터) 생성
-                        </div>
-                    </div>
-
-                    <!-- XDT.LLM -->
-                    <div class="component-group">
-                        <div class="component-box component-blue">
-                            <h4>XDT.LLM</h4>
-                            <p>(NLP → DSL)</p>
-                        </div>
-                        <div class="component-note blue">
-                            💬 자연어 → 시스템 언어<br/>"A구역 순찰해" →<br/>시나리오/규칙 생성
-                        </div>
-                    </div>
-
-                    <!-- XDT.PilotX -->
-                    <div class="component-group">
-                        <div class="component-box component-orange">
-                            <h4>XDT.PilotX</h4>
-                            <p>(AI Autonomous Engine)</p>
-                        </div>
-                        <div class="component-note">
-                            🎖️ <strong>AI 사령관</strong> (1개)<br/>MCTS + 강화학습<br/>전체 유닛 자율 지휘
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Arrow -->
-        <div class="arrow-section">
-            <div class="arrow-container">
-                <div class="arrow-line"></div>
-                <div class="arrow-down"></div>
-            </div>
-            <span class="arrow-label">명령 전달 & 상태 보고</span>
-        </div>
-
-        <!-- SpaceTime Layer -->
-        <div class="layer">
-            <div class="layer-box spacetime-layer">
-                <h3 class="layer-title" style="text-align: center;">XDT.SpaceTime (3D Orchestration & Validation)</h3>
-                <p class="layer-subtitle" style="text-align: center;">전체 노드 상태 취합 → PilotX에게 판단 데이터 제공 & 시각화</p>
-                
-                <div class="spacetime-features">
-                    <div class="spacetime-feature">
-                        <span class="icon">📊</span>
-                        <span>상태 취합/요약</span>
-                    </div>
-                    <div class="spacetime-feature">
-                        <span class="icon">🖥️</span>
-                        <span>시각화 (Web/App)</span>
-                    </div>
-                    <div class="spacetime-feature">
-                        <span class="icon">💾</span>
-                        <span>시계열 DB 저장</span>
-                    </div>
-                    <div class="spacetime-feature">
-                        <span class="icon">⏱️</span>
-                        <span>과거 조회/학습용</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Arrow -->
-        <div class="arrow-section">
-            <div class="arrow-container">
-                <div class="arrow-line"></div>
-                <div class="arrow-down"></div>
-            </div>
-        </div>
-
-        <!-- NSS Protocol -->
-        <div class="layer">
-            <div class="layer-box nss-layer">
-                <h4>NSS (Node Signal Specification): Standard Data Link</h4>
-                <p>디지털트윈 ↔ 노드 간 표준 통신 규약 (공용어) · 메타데이터 포함으로 AI 학습 최적화</p>
-            </div>
-        </div>
-
-        <!-- Arrow -->
-        <div class="arrow-section">
-            <div class="arrow-container">
-                <div class="arrow-line"></div>
-                <div class="arrow-down"></div>
-            </div>
-        </div>
-
-        <!-- Node Container -->
-        <div class="layer">
-            <div class="layer-box node-container">
-                <h3 class="node-title">XDT.Node (Integrated Unit Container)</h3>
-                <p class="node-subtitle">스타크래프트의 유닛처럼 - 바디 + 지능 + 스킬을 담는 컨테이너</p>
-
-                <!-- AgentX Box -->
-                <div class="agentx-box">
-                    <div class="agentx-header">
-                        <h4>
-                            XDT.AgentX
-                            <span class="badge">High-Level SW Layer</span>
-                        </h4>
-                        <p>🤖 단일 노드(로봇)의 지능 · 터틀봇 2개면 AgentX도 2개 (엣지 AI)</p>
-                    </div>
+                    <!-- Arrow -->
+            
+                    <div class="arrow-section">
                     
-                    <div class="agentx-functions">
-                        <div class="agentx-func">
-                            <h5>🗺️ Mapping</h5>
-                            <p>SLAM 맵핑<br/>& PCD 에디팅</p>
-                        </div>
-                        <div class="agentx-func">
-                            <h5>👁️ Perception</h5>
-                            <p>센서 인지<br/>환경 파악</p>
-                        </div>
-                        <div class="agentx-func">
-                            <h5>🧠 Judgment</h5>
-                            <p>상황 판단<br/>경로 결정</p>
-                        </div>
-                        <div class="agentx-func">
-                            <h5>⚙️ Control</h5>
-                            <p>모션 제어<br/>명령 실행</p>
-                        </div>
-                    </div>
-                </div>
+                                <div class="arrow-bidirectional">
+                                
+                                                <div class="arrow-up"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-down"></div>div>
+                                
+                                </div>div>
+                    
+                                <span class="arrow-label">명령 전달 & 상태 보고</span>
+                    
+                    </div>div>
+            
+                    <!-- SpaceTime Layer -->
+            
+                    <div class="layer">
+                    
+                                <div class="layer-box spacetime-layer">
+                                
+                                                <h3 class="layer-title" style="text-align: center;">XDT.SpaceTime (3D Orchestration & Validation)</h3>
+                                
+                                                <p class="layer-subtitle" style="text-align: center;">전체 노드 상태 취합 → PilotX에게 판단 데이터 제공 & 시각화</p>
+                                
+                                                
+                                
+                                                <div class="spacetime-features">
+                                                
+                                                                    <div class="spacetime-feature">
+                                                                    
+                                                                                            <span class="icon">📊</span>
+                                                                    
+                                                                                            <span>상태 취합/요약</span>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    <div class="spacetime-feature">
+                                                                    
+                                                                                            <span class="icon">🖥️</span>
+                                                                    
+                                                                                            <span>시각화 (Web/App)</span>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    <div class="spacetime-feature">
+                                                                    
+                                                                                            <span class="icon">💾</span>
+                                                                    
+                                                                                            <span>시계열 DB 저장</span>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    <div class="spacetime-feature">
+                                                                    
+                                                                                            <span class="icon">⏱️</span>
+                                                                    
+                                                                                            <span>과거 조회/학습용</span>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                </div>div>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+                    <!-- Arrow -->
+            
+                    <div class="arrow-section">
+                    
+                                <div class="arrow-bidirectional">
+                                
+                                                <div class="arrow-up"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-down"></div>div>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+                    <!-- NSS Protocol -->
+            
+                    <div class="layer">
+                    
+                                <div class="layer-box nss-layer">
+                                
+                                                <h4>NSS (Node Signal Specification): Standard Data Link</h4>
+                                
+                                                <p>디지털트윈 ↔ 노드 간 표준 통신 규약 (공용어) · 메타데이터 포함으로 AI 학습 최적화</p>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+                    <!-- Arrow -->
+            
+                    <div class="arrow-section">
+                    
+                                <div class="arrow-bidirectional">
+                                
+                                                <div class="arrow-up"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-line-short"></div>div>
+                                
+                                                <div class="arrow-down"></div>div>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+                    <!-- Node Container -->
+            
+                    <div class="layer">
+                    
+                                <div class="layer-box node-container">
+                                
+                                                <h3 class="node-title">XDT.Node (Integrated Unit Container)</h3>
+                                
+                                                <p class="node-subtitle">스타크래프트의 유닛처럼 - 바디 + 지능 + 스킬을 담는 컨테이너</p>
+                                
+                                                <!-- AgentX Box -->
+                                
+                                                <div class="agentx-box">
+                                                
+                                                                    <div class="agentx-header">
+                                                                    
+                                                                                            <h4>
+                                                                                            
+                                                                                                                        XDT.AgentX
+                                                                                            
+                                                                                                                        <span class="badge">High-Level SW Layer</span>span>
+                                                                                            
+                                                                                                </h4>
+                                                                    
+                                                                                            <p>🤖 단일 노드(로봇)의 지능 · 터틀봇 2개면 AgentX도 2개 (엣지 AI)</p>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    
+                                                
+                                                                    <div class="agentx-functions">
+                                                                    
+                                                                                            <div class="agentx-func">
+                                                                                            
+                                                                                                                        <h5>🗺️ SLAM</h5>
+                                                                                            
+                                                                                                                        <p>맵핑, 로컬라이제이션<br/>맵 편집, 파라미터 조정</p>
+                                                                                            
+                                                                                                </div>div>
+                                                                    
+                                                                                            <div class="agentx-func">
+                                                                                            
+                                                                                                                        <h5>👁️ Perception</h5>
+                                                                                            
+                                                                                                                        <p>센서 인지<br/>환경 파악</p>
+                                                                                            
+                                                                                                </div>div>
+                                                                    
+                                                                                            <div class="agentx-func">
+                                                                                            
+                                                                                                                        <h5>🧠 Planning</h5>
+                                                                                            
+                                                                                                                        <p>상황 판단<br/>경로 계획</p>
+                                                                                            
+                                                                                                </div>div>
+                                                                    
+                                                                                            <div class="agentx-func">
+                                                                                            
+                                                                                                                        <h5>⚙️ Control</h5>
+                                                                                            
+                                                                                                                        <p>모션 제어<br/>명령 실행</p>
+                                                                                            
+                                                                                                </div>div>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                </div>div>
+                                
+                                                <!-- Target Row -->
+                                
+                                                <div class="target-row">
+                                                
+                                                                    <div class="target-box target-sim">
+                                                                    
+                                                                                            <span class="label">가상 환경</span>
+                                                                    
+                                                                                            <h4>XDT.Sim</h4>
+                                                                    
+                                                                                            <p>(Virtual World /<br/>Unreal Engine)</p>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    <div class="target-box target-real">
+                                                                    
+                                                                                            <span class="label">실제 환경</span>
+                                                                    
+                                                                                            <h4>XDT.Real</h4>
+                                                                    
+                                                                                            <p>(Physical World /<br/>Real Hardware)</p>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                </div>div>
+                                
+                                                <!-- Gap Indicator -->
+                                
+                                                <div class="gap-section">
+                                                
+                                                                    <div class="gap-indicator">
+                                                                    
+                                                                                            <span>XDT.Sim</span>
+                                                                    
+                                                                                            <div class="line"></div>div>
+                                                                    
+                                                                                            <span>XDT.Real</span>
+                                                                    
+                                                                    </div>div>
+                                                
+                                                                    <span style="font-size: 0.7rem; color: #666;">
+                                                                    
+                                                                                            ⚠️ Sim↔Real 갭을 줄이는 것이 목표 (완벽 일치는 불가능)
+                                                                    
+                                                                    </span>
+                                                
+                                                </div>div>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+                    <!-- Feedback Loop -->
+            
+                    <div class="feedback-section">
+                    
+                                <div class="feedback-title">🔄 학습 피드백 루프</div>div>
+                    
+                                <div class="feedback-flow">
+                                
+                                                <span class="step">XDT.Play 조작</span>
+                                
+                                                <span class="arrow">→</span>
+                                
+                                                <span class="step">기보 생성</span>
+                                
+                                                <span class="arrow">→</span>
+                                
+                                                <span class="step">SpaceTime DB 저장</span>
+                                
+                                                <span class="arrow">→</span>
+                                
+                                                <span class="step">XDT.MindX 학습 (MCTS+RL)</span>
+                                
+                                                <span class="arrow">→</span>
+                                
+                                                <span class="step">XDT.PilotX 추론</span>
+                                
+                                                <span class="arrow">→</span>
+                                
+                                                <span class="step">자율 운영</span>
+                                
+                                </div>div>
+                    
+                    </div>div>
+            
+            </div>div>
+    
+    </body>
 
-                <!-- Target Row -->
-                <div class="target-row">
-                    <div class="target-box target-sim">
-                        <span class="label">가상 환경</span>
-                        <h4>XDT.Sim</h4>
-                        <p>(Virtual World /<br/>Unreal Engine)</p>
-                    </div>
-                    <div class="target-box target-real">
-                        <span class="label">실제 환경</span>
-                        <h4>XDT.Real</h4>
-                        <p>(Physical World /<br/>Real Hardware)</p>
-                    </div>
-                </div>
-
-                <!-- Gap Indicator -->
-                <div class="gap-section">
-                    <div class="gap-indicator">
-                        <span>XDT.Sim</span>
-                        <div class="line"></div>
-                        <span>XDT.Real</span>
-                    </div>
-                    <span style="font-size: 0.7rem; color: #666;">
-                        ⚠️ Sim↔Real 갭을 줄이는 것이 목표 (완벽 일치는 불가능)
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feedback Loop -->
-        <div class="feedback-section">
-            <div class="feedback-title">🔄 학습 피드백 루프</div>
-            <div class="feedback-flow">
-                <span class="step">XDT.Play 조작</span>
-                <span class="arrow">→</span>
-                <span class="step">기보 생성</span>
-                <span class="arrow">→</span>
-                <span class="step">SpaceTime DB 저장</span>
-                <span class="arrow">→</span>
-                <span class="step">XDT.PilotX 학습 (MCTS+RL)</span>
-                <span class="arrow">→</span>
-                <span class="step">자율 운영</span>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+</html>html></strong></p></p></h4></span></span>
+    </body>
+        </style></title>
+    </head>
