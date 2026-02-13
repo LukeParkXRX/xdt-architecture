@@ -837,7 +837,7 @@
                     <div class="target-box target-sim">
                         <span class="label">가상 환경</span>
                         <h4>XDT.Sim</h4>
-                        <p>(Virtual World /<br />Unreal Engine)</p>
+                        <p>(Virtual World /<br />MuJoCo + Unreal Engine)</p>
                     </div>
                     <div class="target-box target-real">
                         <span class="label">실제 환경</span>
@@ -856,6 +856,41 @@
                     <span style="font-size: 0.7rem; color: #666;">
                         ⚠️ Sim↔Real 갭을 줄이는 것이 목표 (완벽 일치는 불가능)
                     </span>
+                </div>
+
+                <!-- Simulation Layer Detail Note -->
+                <div
+                    style="margin-top: 20px; padding: 16px; background: #fff; border-radius: 10px; border: 1px solid #e0e6ed;">
+                    <h4 style="font-size: 0.9rem; color: #1a1a2e; margin-bottom: 10px; text-align: center;">🛡️ 시뮬레이션
+                        전략: MuJoCo (Physics) + Unreal (Visuals)</h4>
+                    <p
+                        style="font-size: 0.75rem; color: #555; line-height: 1.6; margin-bottom: 12px; text-align: center;">
+                        "결정론적 물리·GT·학습은 <strong>MuJoCo</strong>가, 실시간 시각화·UX는 <strong>Unreal</strong>이 담당하는 분리 구조"
+                    </p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div
+                            style="background: #f1f8ff; padding: 10px; border-radius: 6px; border-left: 4px solid #0366d6;">
+                            <h5 style="font-size: 0.8rem; color: #0366d6; margin-bottom: 5px;">Google MuJoCo</h5>
+                            <ul style="font-size: 0.7rem; color: #444; padding-left: 15px;">
+                                <li>결정론적(Deterministic) 물리 엔진</li>
+                                <li>고속 강화학습(RL) & GT 생성</li>
+                                <li>정확한 Dynamics & Inverse Dynamics</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: #fff5f8; padding: 10px; border-radius: 6px; border-left: 4px solid #d73a49;">
+                            <h5 style="font-size: 0.8rem; color: #d73a49; margin-bottom: 5px;">Unreal Engine</h5>
+                            <ul style="font-size: 0.7rem; color: #444; padding-left: 15px;">
+                                <li>고해상도 실시간 시각화</li>
+                                <li>사용자 인터랙션 & 데모</li>
+                                <li>검증된 확장성 & 시각적 UX</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        style="margin-top: 12px; font-size: 0.65rem; color: #666; font-style: italic; border-top: 1px dashed #ccc; padding-top: 8px;">
+                        * 기존 PhysX는 안정적이지만 결정론적이지 않아, 학습 및 검증의 핵심인 '재현성'을 위해 MuJoCo로 교체되었습니다.
+                    </div>
                 </div>
             </div>
         </div>
