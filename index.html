@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XDT: Extended Digital Twin System Architecture</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>CAP DT: Extended Digital Twin System Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -113,14 +115,14 @@
             padding: 16px 24px;
             text-align: center;
             min-width: 160px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
         }
 
         .component-box:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
         .component-box h4 {
@@ -538,7 +540,7 @@
             gap: 20px;
             margin-top: 16px;
             padding: 12px;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 8px;
         }
 
@@ -581,12 +583,17 @@
         }
 
         @media (max-width: 600px) {
-            .components-row, .target-row, .agentx-functions {
+
+            .components-row,
+            .target-row,
+            .agentx-functions {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .component-box, .target-box, .agentx-func {
+
+            .component-box,
+            .target-box,
+            .agentx-func {
                 width: 100%;
                 max-width: 250px;
             }
@@ -596,17 +603,87 @@
                 align-items: center;
             }
         }
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+
+            body {
+                padding: 10mm;
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .main-title {
+                font-size: 1.4rem;
+                margin-bottom: 5px;
+            }
+
+            .main-subtitle {
+                margin-bottom: 15px;
+            }
+
+            .layer-box {
+                padding: 12px 18px;
+            }
+
+            .components-row {
+                margin-top: 10px;
+                gap: 20px;
+            }
+
+            .component-box {
+                padding: 10px 16px;
+                min-width: 140px;
+            }
+
+            .component-note {
+                font-size: 0.65rem;
+            }
+
+            .node-container {
+                padding: 15px;
+            }
+
+            .agentx-box {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .agentx-func {
+                padding: 8px 12px;
+                min-width: 120px;
+            }
+
+            .target-box {
+                padding: 12px 20px;
+                min-width: 160px;
+            }
+
+            .feedback-section {
+                margin-top: 10px;
+                padding: 10px 15px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1 class="main-title">XDT: Extended Digital Twin System Architecture</h1>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 1.2rem; color: #1565c0; margin-bottom: 5px;">건솔루션 디지털트윈 플랫폼</h2>
+            <h1 class="main-title">CAP DT: Extended Digital Twin System Architecture</h1>
+        </div>
         <p class="main-subtitle">Command → Orchestration → Execution → Learning 순환 루프</p>
 
         <!-- Control Panel Layer -->
         <div class="layer">
             <div class="layer-box control-layer">
-                <h3 class="layer-title">XDT.ControlPanel (통합 제어판)</h3>
+                <h3 class="layer-title">CAP DT.ControlPanel (통합 제어판)</h3>
                 <p class="layer-subtitle">운영자가 전체 시스템을 제어하는 통합 허브</p>
                 <div class="layer-features">
                     <span>Human Manager Interface</span>
@@ -616,36 +693,36 @@
                 </div>
 
                 <div class="components-row" style="margin-top: 20px;">
-                    <!-- XDT.Play -->
+                    <!-- CAP DT.Play -->
                     <div class="component-group">
                         <div class="component-box component-yellow">
-                            <h4>XDT.Play</h4>
+                            <h4>CAP DT.Play</h4>
                             <p>(Human Control)</p>
                         </div>
                         <div class="component-note">
-                            🎮 스타크래프트처럼<br/>사람이 직접 조작<br/>→ 기보(학습데이터) 생성
+                            🎮 스타크래프트처럼<br />사람이 직접 조작<br />→ 기보(학습데이터) 생성
                         </div>
                     </div>
 
-                    <!-- XDT.LLM -->
+                    <!-- CAP DT.LLM -->
                     <div class="component-group">
                         <div class="component-box component-blue">
-                            <h4>XDT.LLM</h4>
+                            <h4>CAP DT.LLM</h4>
                             <p>(NLP → DSL)</p>
                         </div>
                         <div class="component-note blue">
-                            💬 자연어 → 시스템 언어<br/>"A구역 순찰해" →<br/>시나리오/규칙 생성
+                            💬 자연어 → 시스템 언어<br />"A구역 순찰해" →<br />시나리오/규칙 생성
                         </div>
                     </div>
 
-                    <!-- XDT.PilotX -->
+                    <!-- CAP DT.PilotX -->
                     <div class="component-group">
                         <div class="component-box component-orange">
-                            <h4>XDT.PilotX</h4>
+                            <h4>CAP DT.PilotX</h4>
                             <p>(AI Autonomous Engine)</p>
                         </div>
                         <div class="component-note">
-                            🎖️ <strong>AI 사령관</strong> (1개)<br/>MCTS + 강화학습<br/>전체 유닛 자율 지휘
+                            🎖️ <strong>AI 사령관</strong> (1개)<br />MCTS + 강화학습<br />전체 유닛 자율 지휘
                         </div>
                     </div>
                 </div>
@@ -666,9 +743,10 @@
         <!-- SpaceTime Layer -->
         <div class="layer">
             <div class="layer-box spacetime-layer">
-                <h3 class="layer-title" style="text-align: center;">XDT.SpaceTime (3D Orchestration & Validation)</h3>
+                <h3 class="layer-title" style="text-align: center;">CAP DT.SpaceTime (3D Orchestration & Validation)
+                </h3>
                 <p class="layer-subtitle" style="text-align: center;">전체 노드 상태 취합 → PilotX에게 판단 데이터 제공 & 시각화</p>
-                
+
                 <div class="spacetime-features">
                     <div class="spacetime-feature">
                         <span class="icon">📊</span>
@@ -721,35 +799,35 @@
         <!-- Node Container -->
         <div class="layer">
             <div class="layer-box node-container">
-                <h3 class="node-title">XDT.Node (Integrated Unit Container)</h3>
+                <h3 class="node-title">CAP DT.Node (Integrated Unit Container)</h3>
                 <p class="node-subtitle">스타크래프트의 유닛처럼 - 바디 + 지능 + 스킬을 담는 컨테이너</p>
 
                 <!-- AgentX Box -->
                 <div class="agentx-box">
                     <div class="agentx-header">
                         <h4>
-                            XDT.AgentX
+                            CAP DT.AgentX
                             <span class="badge">High-Level SW Layer</span>
                         </h4>
                         <p>🤖 단일 노드(로봇)의 지능 · 터틀봇 2개면 AgentX도 2개 (엣지 AI)</p>
                     </div>
-                    
+
                     <div class="agentx-functions">
                         <div class="agentx-func">
                             <h5>🗺️ SLAM</h5>
-                            <p>맵핑, 로컬라이제이션<br/>맵 편집, 파라미터 조정</p>
+                            <p>맵핑, 로컬라이제이션<br />맵 편집, 파라미터 조정</p>
                         </div>
                         <div class="agentx-func">
                             <h5>👁️ Perception</h5>
-                            <p>센서 인지<br/>환경 파악</p>
+                            <p>센서 인지<br />환경 파악</p>
                         </div>
                         <div class="agentx-func">
                             <h5>🧠 Planning</h5>
-                            <p>상황 판단<br/>경로 계획</p>
+                            <p>상황 판단<br />경로 계획</p>
                         </div>
                         <div class="agentx-func">
                             <h5>⚙️ Control</h5>
-                            <p>모션 제어<br/>명령 실행</p>
+                            <p>모션 제어<br />명령 실행</p>
                         </div>
                     </div>
                 </div>
@@ -758,22 +836,22 @@
                 <div class="target-row">
                     <div class="target-box target-sim">
                         <span class="label">가상 환경</span>
-                        <h4>XDT.Sim</h4>
-                        <p>(Virtual World /<br/>Unreal Engine)</p>
+                        <h4>CAP DT.Sim</h4>
+                        <p>(Virtual World /<br />Unreal Engine)</p>
                     </div>
                     <div class="target-box target-real">
                         <span class="label">실제 환경</span>
-                        <h4>XDT.Real</h4>
-                        <p>(Physical World /<br/>Real Hardware)</p>
+                        <h4>CAP DT.Real</h4>
+                        <p>(Physical World /<br />Real Hardware)</p>
                     </div>
                 </div>
 
                 <!-- Gap Indicator -->
                 <div class="gap-section">
                     <div class="gap-indicator">
-                        <span>XDT.Sim</span>
+                        <span>CAP DT.Sim</span>
                         <div class="line"></div>
-                        <span>XDT.Real</span>
+                        <span>CAP DT.Real</span>
                     </div>
                     <span style="font-size: 0.7rem; color: #666;">
                         ⚠️ Sim↔Real 갭을 줄이는 것이 목표 (완벽 일치는 불가능)
@@ -786,19 +864,20 @@
         <div class="feedback-section">
             <div class="feedback-title">🔄 학습 피드백 루프</div>
             <div class="feedback-flow">
-                <span class="step">XDT.Play 조작</span>
+                <span class="step">CAP DT.Play 조작</span>
                 <span class="arrow">→</span>
                 <span class="step">기보 생성</span>
                 <span class="arrow">→</span>
                 <span class="step">SpaceTime DB 저장</span>
                 <span class="arrow">→</span>
-                <span class="step">XDT.MindX 학습 (MCTS+RL)</span>
+                <span class="step">CAP DT.MindX 학습 (MCTS+RL)</span>
                 <span class="arrow">→</span>
-                <span class="step">XDT.PilotX 추론</span>
+                <span class="step">CAP DT.PilotX 추론</span>
                 <span class="arrow">→</span>
                 <span class="step">자율 운영</span>
             </div>
         </div>
     </div>
 </body>
+
 </html>
