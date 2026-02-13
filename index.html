@@ -768,6 +768,20 @@
             </div>
         </div>
 
+        <!-- XDT.Defense Layer -->
+        <div class="layer" style="margin-top: 16px;">
+            <div class="layer-box"
+                style="background: linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%); border: 1px solid #b0bec5; border-left: 5px solid #37474f;">
+                <h3 class="layer-title" style="color: #263238;">⚔️ XDT.Defense (GNSS Specialized Solution)</h3>
+                <p class="layer-subtitle">위성 항법 시스템(GNSS)이 추가된 군소요 맞춤형 디지털트윈 솔루션</p>
+                <div class="layer-features">
+                    <span>실내 항법 + 위성 항법(GNSS) 통합</span>
+                    <span>군사 작전 및 전술 시뮬레이션 최적화</span>
+                    <span>실외 광역 환경 디지털트윈 확장</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Arrow -->
         <div class="arrow-section">
             <div class="arrow-bidirectional">
@@ -860,58 +874,49 @@
 
                 <!-- Simulation Layer Detail Note -->
                 <div
-                    style="margin-top: 20px; padding: 16px; background: #fff; border-radius: 10px; border: 1px solid #e0e6ed;">
-                    <h4 style="font-size: 0.9rem; color: #1a1a2e; margin-bottom: 10px; text-align: center;">🛡️ 시뮬레이션
-                        전략: MuJoCo (Physics) + Unreal (Visuals)</h4>
-                    <p
-                        style="font-size: 0.75rem; color: #555; line-height: 1.6; margin-bottom: 12px; text-align: center;">
-                        "결정론적 물리·GT·학습은 <strong>MuJoCo</strong>가, 실시간 시각화·UX는 <strong>Unreal</strong>이 담당하는 분리 구조"
-                    </p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    style="margin-top: 20px; padding: 14px; background: #fff; border-radius: 10px; border: 1px solid #e0e6ed;">
+                    <h4 style="font-size: 0.85rem; color: #1a1a2e; margin-bottom: 8px; text-align: center;">🛡️ 시뮬레이션:
+                        MuJoCo (Physics) + Unreal (Visuals)</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                         <div
-                            style="background: #f1f8ff; padding: 10px; border-radius: 6px; border-left: 4px solid #0366d6;">
-                            <h5 style="font-size: 0.8rem; color: #0366d6; margin-bottom: 5px;">Google MuJoCo</h5>
-                            <ul style="font-size: 0.7rem; color: #444; padding-left: 15px;">
-                                <li>결정론적(Deterministic) 물리 엔진</li>
-                                <li>고속 강화학습(RL) & GT 생성</li>
-                                <li>정확한 Dynamics & Inverse Dynamics</li>
-                            </ul>
+                            style="background: #f1f8ff; padding: 8px; border-radius: 6px; border-left: 4px solid #0366d6;">
+                            <h5 style="font-size: 0.75rem; color: #0366d6; margin-bottom: 4px;">MuJoCo (Deterministic)
+                            </h5>
+                            <p style="font-size: 0.65rem; color: #444;">결정론적 물리, 고속 RL 학습, GT 생성 및 재현성 확보</p>
                         </div>
                         <div
-                            style="background: #fff5f8; padding: 10px; border-radius: 6px; border-left: 4px solid #d73a49;">
-                            <h5 style="font-size: 0.8rem; color: #d73a49; margin-bottom: 5px;">Unreal Engine</h5>
-                            <ul style="font-size: 0.7rem; color: #444; padding-left: 15px;">
-                                <li>고해상도 실시간 시각화</li>
-                                <li>사용자 인터랙션 & 데모</li>
-                                <li>검증된 확장성 & 시각적 UX</li>
-                            </ul>
+                            style="background: #fff5f8; padding: 8px; border-radius: 6px; border-left: 4px solid #d73a49;">
+                            <h5 style="font-size: 0.75rem; color: #d73a49; margin-bottom: 4px;">Unreal (Visualization)
+                            </h5>
+                            <p style="font-size: 0.65rem; color: #444;">고해상도 실시간 시각화, 사용자 UX 및 인터랙션 데모</p>
                         </div>
-                    </div>
-                    <div
-                        style="margin-top: 12px; font-size: 0.65rem; color: #666; font-style: italic; border-top: 1px dashed #ccc; padding-top: 8px;">
-                        * 기존 PhysX는 안정적이지만 결정론적이지 않아, 학습 및 검증의 핵심인 '재현성'을 위해 MuJoCo로 교체되었습니다.
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Feedback Loop -->
-        <div class="feedback-section">
-            <div class="feedback-title">🔄 학습 피드백 루프</div>
-            <div class="feedback-flow">
-                <span class="step">XDT.Play 조작</span>
-                <span class="arrow">→</span>
-                <span class="step">기보 생성</span>
-                <span class="arrow">→</span>
-                <span class="step">SpaceTime DB 저장</span>
-                <span class="arrow">→</span>
-                <span class="step">XDT.MindX 학습 (MCTS+RL)</span>
-                <span class="arrow">→</span>
-                <span class="step">XDT.PilotX 추론</span>
-                <span class="arrow">→</span>
-                <span class="step">자율 운영</span>
-            </div>
+        <div
+            style="margin-top: 12px; font-size: 0.65rem; color: #666; font-style: italic; border-top: 1px dashed #ccc; padding-top: 8px;">
+            * 기존 PhysX는 안정적이지만 결정론적이지 않아, 학습 및 검증의 핵심인 '재현성'을 위해 MuJoCo로 교체되었습니다.
         </div>
+    </div>
+
+    <!-- Feedback Loop -->
+    <div class="feedback-section">
+        <div class="feedback-title">🔄 학습 피드백 루프</div>
+        <div class="feedback-flow">
+            <span class="step">XDT.Play 조작</span>
+            <span class="arrow">→</span>
+            <span class="step">기보 생성</span>
+            <span class="arrow">→</span>
+            <span class="step">SpaceTime DB 저장</span>
+            <span class="arrow">→</span>
+            <span class="step">XDT.MindX 학습 (MCTS+RL)</span>
+            <span class="arrow">→</span>
+            <span class="step">XDT.PilotX 추론</span>
+            <span class="arrow">→</span>
+            <span class="step">자율 운영</span>
+        </div>
+    </div>
     </div>
 </body>
 
