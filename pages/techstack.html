@@ -1,0 +1,45 @@
+<!-- 기술 스택 섹션 -->
+<div class="section-header"><h2>기술 스택</h2><p>XDT를 구동하는 핵심 기술들</p></div>
+<div class="glass-card mujoco-section">
+    <div class="mujoco-header"><h3 style="font-size:1.2rem;font-weight:700;">물리엔진: NVIDIA PhysX → Google DeepMind MuJoCo</h3><span class="mujoco-badge">핵심 전환</span></div>
+    <p style="font-size:0.88rem;color:var(--text-sub);line-height:1.7;margin-bottom:16px;">Isaac Sim은 PhysX 기반으로 '안정적'일 뿐, 결정론적이지 않습니다. 학습 · GT 생성 · 검증에서는 결정론이 핵심이고, 그 역할은 MuJoCo가 압도적으로 우수합니다.</p>
+    <div class="definition-box"><strong>결정론(Determinism)</strong><p>같은 초기 상태와 같은 입력이면, 언제 · 어디서 실행해도 항상 같은 결과가 나온다는 성질.</p></div>
+    <p class="mujoco-conclusion"><strong>MuJoCo</strong>로 결정론적 물리 · GT · 학습을 담당하고, <strong>Unreal</strong>로 실시간 시각화 · 인터랙션 · 데모를 담당하는 <strong>분리 구조</strong>가 가장 합리적입니다. "특히 우리 같이 게임 기술에 익숙한 사람에게는 최고의 선택지"</p>
+    <h4 style="font-size:1rem;font-weight:700;margin-top:30px;margin-bottom:16px;">MuJoCo 분야별 사용 이유</h4>
+    <table class="mujoco-table">
+        <thead><tr><th>분야</th><th>MuJoCo 사용 이유</th></tr></thead>
+        <tbody>
+            <tr><td>강화학습</td><td>결정론 + 속도</td></tr>
+            <tr><td>MPC / 최적제어</td><td>정확한 dynamics</td></tr>
+            <tr><td>전통 제어</td><td>inverse dynamics</td></tr>
+            <tr><td>시스템 식별</td><td>재현성</td></tr>
+            <tr><td>로봇 설계</td><td>구조 실험</td></tr>
+            <tr><td>하이브리드 제어</td><td>제어+학습 통합</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="stack-diagram">
+    <h3 class="stack-diagram-title">XDT.Node.DT.AgentX 소프트웨어 스택</h3>
+    <div class="stack-layers">
+        <div class="stack-layer layer-top">CLI / DigitalTwin Bridge</div>
+        <div class="stack-layer layer-api">NSS API</div>
+        <div class="stack-layer layer-runtime">NSS Runtime</div>
+        <div class="stack-layer layer-mission">Mission Layer (임무, 인지, 계획, 행동)</div>
+        <div class="stack-layer layer-nav">Navigation & SLAM</div>
+        <div class="stack-layer layer-behavior">Behavior & Gait Control Layer (보행 패턴, 상태머신, 동작조합)</div>
+        <div class="stack-layer layer-motion">Motion Control Layer (역기구학, 자세제어, 균형제어)</div>
+        <div class="stack-layer layer-embedded">Embedded Control Layer (PID, 센서, I/O, 실시간 모터루프, 토크계산)</div>
+        <div class="stack-split"><div class="stack-layer layer-real">Real (물리 하드웨어)</div><div class="stack-layer layer-sim">XDT.Simulator (가상 환경)</div></div>
+    </div>
+</div>
+<div class="feature-cards-row">
+    <div class="feature-card"><h5>로봇의 '두뇌' 역할</h5><p>각 로봇에 탑재되어 자율주행과 자동화 제어를 담당. 상위 시스템 연결 없이도 독립적으로 로봇을 제어할 수 있습니다.</p></div>
+    <div class="feature-card"><h5>뛰어난 호환성과 연결성</h5><p>NSS & ROS 2 기반으로 다양한 벤더의 로봇과 센서를 단일 표준으로 연동합니다.</p></div>
+    <div class="feature-card"><h5>확장 가능한 관제 시스템</h5><p>단일 로봇에서 군집 로봇까지, 규모에 관계없이 유연하게 확장되는 관제 아키텍처.</p></div>
+</div>
+<div class="nss-card"><h4>NSS (Node Signal Specification)</h4><p>디지털트윈과 장비 간의 '공용어'. VSS(Vehicle Signal Specification)를 로봇 산업에 맞게 차용한 자체 표준으로, <strong style="color:var(--primary);">Vendor Agnostic 확장성</strong>을 제공합니다.</p></div>
+<h4 style="font-size:1.1rem;font-weight:700;margin-bottom:16px;">하드웨어 전략</h4>
+<div class="hardware-row">
+    <div class="hw-card cyan-accent"><h5>Brainless Robot Solution</h5><p>로봇의 두뇌(컴퓨팅)를 디지털 트윈 서버로 이관하여 <strong style="color:var(--primary);">하드웨어 원가 15~25% 절감</strong>. 현장 로봇은 센서와 액추에이터만 탑재합니다.</p></div>
+    <div class="hw-card green-accent"><h5>Retrofit</h5><p>구형 설비를 <strong style="color:var(--accent);">NSS 호환 센서</strong>로 장착하여 지능형 노드로 업그레이드. 기존 투자를 보호하면서 디지털 트윈 생태계에 편입합니다.</p></div>
+</div>

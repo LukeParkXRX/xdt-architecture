@@ -1,0 +1,47 @@
+<!-- 시스템 아키텍처 섹션 -->
+<div class="section-header"><h2>시스템 아키텍처</h2><p>Command → Orchestration → Execution → Learning 순환 구조</p></div>
+<div class="layer"><div class="glass-card">
+    <div class="layer-header">
+        <h3 class="layer-title"><i data-lucide="layout-dashboard"></i> XDT.ControlPanel</h3>
+        <p class="layer-subtitle">운영자가 전체 시스템을 지휘하고 모니터링하는 통합 관제 허브</p>
+        <div class="layer-features"><span class="feature-tag">Fleet Telemetry</span><span class="feature-tag">Operation Mode Toggle</span><span class="feature-tag">System Master Control</span></div>
+    </div>
+    <div class="modules-row">
+        <div class="module-card cyan"><div class="module-icon"><i data-lucide="gamepad-2"></i></div><h4 class="module-name">XDT.Play</h4><p class="module-desc">Human-in-the-loop Control Layer</p><p class="module-note">사람이 직접 조작하여 고품질의 기보(GT 학습 데이터)를 생성하는 인터페이스</p></div>
+        <div class="module-card purple"><div class="module-icon"><i data-lucide="message-square"></i></div><h4 class="module-name">XDT.LLM</h4><p class="module-desc">Natural Language to DSL Engine</p><p class="module-note">자연어 명령을 시스템 시나리오 및 실행 규칙으로 변환하여 지능형 제어 지원</p></div>
+        <div class="module-card amber"><div class="module-icon"><i data-lucide="shield-check"></i></div><h4 class="module-name">XDT.PilotX</h4><p class="module-desc">AI Autonomous Strategic Engine</p><p class="module-note">MCTS와 고도화된 강화학습을 통해 다수 노드를 자율적으로 지휘하는 가상 사령관</p></div>
+    </div>
+</div></div>
+<div class="connector"><span style="font-size:0.7rem;">Bidirectional Data Link</span><div class="glow-line"></div><i data-lucide="chevrons-down" style="width:16px;color:var(--primary);"></i></div>
+<div class="layer"><div class="glass-card"><div class="layer-header" style="text-align:center;"><h3 class="layer-title" style="justify-content:center;"><i data-lucide="database"></i> XDT.SpaceTime</h3><p class="layer-subtitle">3D Orchestration & 시계열 데이터 밸리데이션 센터</p><div class="layer-features" style="justify-content:center;"><span class="feature-tag">Time-Series DB</span><span class="feature-tag">Web/App Visualization</span><span class="feature-tag">State Summary</span></div></div></div></div>
+<div class="layer"><div class="glass-card defense-layer"><div class="layer-header"><h3 class="layer-title"><i data-lucide="crosshair"></i> XDT.Defense</h3><p class="layer-subtitle">GNSS(위성 항법) 통합 기반 군소요 맞춤형 특화 솔루션</p></div><div class="layer-features"><span class="feature-tag">GNSS + Indoor Navigation</span><span class="feature-tag">Tactical Simulation</span><span class="feature-tag">Outdoor Expansion</span></div></div></div>
+<div class="layer"><div class="glass-card nss-layer"><h4 class="tech-font" style="font-size:1rem;color:var(--secondary);margin-bottom:8px;">NSS (Node Signal Specification)</h4><p style="font-size:0.8rem;color:var(--text-sub);">디지털트윈과 물리 노드 간의 표준 통신 프로토콜 · AI 학습 최적화 메타데이터 포함</p></div></div>
+<div class="layer"><div class="glass-card">
+    <div class="layer-header" style="text-align:center;"><h3 class="layer-title" style="justify-content:center;"><i data-lucide="box"></i> XDT.Node</h3><p class="layer-subtitle">지능과 바디가 결합된 통합 유닛 컨테이너</p></div>
+    <div class="agentx-container">
+        <div style="text-align:center;margin-bottom:15px;"><span class="tech-font" style="color:var(--accent);font-size:0.9rem;font-weight:700;">XDT.AgentX</span><span style="font-size:0.7rem;background:var(--accent);color:#000;padding:2px 6px;border-radius:4px;margin-left:8px;">EDGE AI LAYER</span></div>
+        <div class="agentx-grid">
+            <div class="agentx-item"><h5>SLAM</h5><p>Mapping & Localization</p></div>
+            <div class="agentx-item"><h5>Perception</h5><p>Sensor Data Processing</p></div>
+            <div class="agentx-item"><h5>Planning</h5><p>Path & Logic Planning</p></div>
+            <div class="agentx-item"><h5>Control</h5><p>Actuator Command Execution</p></div>
+        </div>
+    </div>
+    <div class="simreal-row">
+        <div class="env-card sim"><span class="env-label">Virtual World</span><h4 class="tech-font" style="color:var(--primary);">XDT.Sim</h4><p style="font-size:0.75rem;color:var(--text-sub);margin-top:8px;">Physics: MuJoCo<br>Visuals: Unreal Engine</p></div>
+        <div class="env-card real"><span class="env-label">Physical World</span><h4 class="tech-font" style="color:var(--warning);">XDT.Real</h4><p style="font-size:0.75rem;color:var(--text-sub);margin-top:8px;">Physical Robot &<br>Real-world Hardware</p></div>
+    </div>
+</div></div>
+<div class="feedback-loop">
+    <h4 class="loop-title"><i data-lucide="refresh-cw"></i> 학습 피드백 루프 (Reinforcement Learning)</h4>
+    <div class="loop-steps"><span class="step-pill">XDT.Play 조작</span><span class="step-arrow">→</span><span class="step-pill">기보 생성</span><span class="step-arrow">→</span><span class="step-pill">SpaceTime DB 저장</span><span class="step-arrow">→</span><span class="step-pill">MindX 학습 (MCTS+RL)</span><span class="step-arrow">→</span><span class="step-pill">PilotX 추론</span><span class="step-arrow">→</span><span class="step-pill">자율 운영</span></div>
+</div>
+<div style="margin-top:60px;"><h3 style="text-align:center;font-size:1.3rem;font-weight:700;margin-bottom:30px;">핵심 기술 상세</h3></div>
+<div class="tech-cards-grid">
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 01</div><h4><span>DT.AgentX</span> — 단일 로봇 실행 플랫폼</h4><p class="tech-card-desc">4족 보행 로봇, 드론, 로봇 팔 등 형태에 상관 없이 DT.AgentX가 표준 명령어로 변환하여 장치를 제어합니다.</p><div class="tech-card-flow"><div class="flow-box">Command Center<br><small>명령 센터</small></div><span class="flow-arrow-sm">→</span><div class="flow-box highlight">DT.AgentX<br><small>인지 판단 제어</small></div><span class="flow-arrow-sm">→</span><div class="flow-box">Real & Sim<br><small>실제 & 가상 환경</small></div></div><div class="tech-card-tagline">DT.AgentX > 생각하고 > 행동한다</div></div>
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 02</div><h4><span>DT.SpaceTime</span> — 중앙 관제탑</h4><p class="tech-card-desc">디지털트윈의 '중앙 두뇌'이자 '통합 관제탑'. 여러 장치를 마치 게임 유닛처럼 다룹니다.</p><div class="tech-card-pills"><span class="pill accent">군집 제어 (Orchestrates Groups)</span><span class="pill accent">임무 기반 제어 (Mission-Based)</span><span class="pill accent">중앙 지능 (Central Intelligence)</span></div></div>
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 03</div><h4><span>DT.MindX</span> — 지능/학습 모듈</h4><p class="tech-card-desc">DT.Spacetime으로부터 정보를 받아 AI가 스스로 학습하는 모듈</p><div class="tech-card-flow"><div class="flow-box">DT.Spacetime<br><small>데이터</small></div><span class="flow-arrow-sm">→</span><div class="flow-box highlight">DT.MindX<br><small>지능/학습</small></div><span class="flow-arrow-sm">→</span><div class="flow-box">Insights<br><small>& Knowledge</small></div></div><div class="tech-card-tagline">CONTINUOUS LEARNING: 지속적인 학습 및 개선</div></div>
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 04</div><h4><span>DT.Sim</span> — 시뮬레이터</h4><p class="tech-card-desc">학습하고 실행하고 분석하고 개선하고를 반복합니다.</p><div class="cycle-steps"><div class="cycle-step"><strong>STEP 1</strong>Virtual Training<br>가상훈련</div><div class="cycle-step"><strong>STEP 2</strong>Real World<br>실제 배포</div><div class="cycle-step"><strong>STEP 3</strong>Live Feedback<br>실시간 피드백</div><div class="cycle-step"><strong>STEP 4</strong>Improvement<br>지속적 개선</div></div><div class="tech-card-tagline">STEP 1 → 2 → 3 → 4 → 반복 순환</div></div>
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 05</div><h4><span>DT.Play</span> — 사용자 인터페이스</h4><p class="tech-card-desc">사용자가 디지털트윈과 상호작용하는 최종 화면입니다.</p><div class="tech-card-flow"><div class="flow-box">User Input<br><small>사용자 명령</small></div><span class="flow-arrow-sm">→</span><div class="flow-box highlight">DT.LLM<br><small>DSL 변환</small></div><span class="flow-arrow-sm">→</span><div class="flow-box">Virtual World<br><small>가상 세계 확인</small></div></div><div class="tech-card-tagline">Real Time Feedback: 명령 > 변환 > 확인</div></div>
+    <div class="tech-card"><div class="tech-card-number">핵심 기술 06</div><h4><span>DT.LLM</span> — 자연어 변환 엔진</h4><p class="tech-card-desc">사용자와 디지털 트윈 간의 통역사 역할을 합니다.</p><div class="provider-badges"><span class="provider-badge">OpenAI</span><span class="provider-badge">Google AI</span><span class="provider-badge">Meta</span></div><div class="tech-card-flow"><div class="flow-box">User Language<br><small>자연어</small></div><span class="flow-arrow-sm">→</span><div class="flow-box highlight">AI Powered<br><small>DSL 변환</small></div><span class="flow-arrow-sm">→</span><div class="flow-box">Twin Command<br><small>트윈 명령어</small></div></div><div class="tech-card-tagline">DT LLM > Talk > Think > Act</div></div>
+</div>

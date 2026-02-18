@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XDT: Extended Digital Twin System Architecture</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -15,29 +15,18 @@
             --bg-surface: rgba(30, 41, 59, 0.4);
             --bg-card: rgba(255, 255, 255, 0.03);
             --border-glass: rgba(255, 255, 255, 0.1);
-
             --primary: #00d4ff;
-            /* Cyan - Command */
             --secondary: #7c3aed;
-            /* Purple - AI */
             --accent: #10b981;
-            /* Green - Execution */
             --warning: #f59e0b;
-            /* Amber - Defense */
-
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
             --text-dim: #64748b;
-
             --glass-blur: blur(12px);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', 'Noto Sans KR', sans-serif;
@@ -47,567 +36,391 @@
                 radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 40%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 60px 20px;
+            padding-top: 70px;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; }
+        h1, h2, h3, h4, h5 { letter-spacing: -0.02em; }
+        .tech-font { font-family: 'Roboto Mono', monospace; }
 
-        /* Typography */
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-            letter-spacing: -0.02em;
+        /* Navigation */
+        .nav-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0 20px;
         }
-
-        .tech-font {
+        .nav-inner {
+            max-width: 1000px; margin: 0 auto;
+            display: flex; align-items: center; gap: 8px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .nav-inner::-webkit-scrollbar { display: none; }
+        .nav-brand {
             font-family: 'Roboto Mono', monospace;
+            font-weight: 700; font-size: 0.85rem;
+            color: var(--primary); margin-right: 24px;
+            white-space: nowrap; padding: 18px 0;
         }
-
-        .main-header {
-            text-align: center;
-            margin-bottom: 60px;
+        .nav-item {
+            padding: 18px 16px; font-size: 0.82rem; font-weight: 500;
+            color: var(--text-dim); cursor: pointer; white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
         }
-
-        .brand-name {
-            font-size: 0.9rem;
-            font-weight: 600;
+        .nav-item:hover { color: var(--text-sub); }
+        .nav-item.active {
             color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 12px;
-            display: block;
+            border-bottom-color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
         }
 
-        .main-title {
-            font-size: 2.5rem;
-            font-weight: 800;
+        /* Sections */
+        .section { display: none; padding: 40px 0 80px; opacity: 0; transition: opacity 0.3s ease; }
+        .section.active { display: block; opacity: 1; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 {
+            font-size: 2rem; font-weight: 800;
             background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 12px;
         }
-
-        .main-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-sub);
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .section-header p { font-size: 1rem; color: var(--text-sub); }
 
         /* Glass Card */
         .glass-card {
             background: var(--bg-card);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 30px;
-            transition: var(--transition);
+            border-radius: 20px; padding: 30px;
+            transition: var(--transition); margin-bottom: 30px;
         }
+        .glass-card:hover { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); }
 
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        /* Hero */
+        .hero { text-align: center; margin-bottom: 60px; }
+        .hero .brand-name {
+            font-size: 0.9rem; font-weight: 600; color: var(--primary);
+            text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 12px; display: block;
         }
-
-        /* Layer Styles */
-        .layer {
-            margin-bottom: 40px;
-            position: relative;
+        .hero .main-title {
+            font-size: 2.5rem; font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 12px;
         }
+        .hero .tagline { font-size: 1.3rem; font-weight: 700; color: var(--accent); margin-bottom: 16px; }
+        .hero .main-subtitle { font-size: 1rem; color: var(--text-sub); max-width: 700px; margin: 0 auto; }
 
-        .layer-header {
-            margin-bottom: 24px;
+        /* Core Loop Cards */
+        .loop-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px; }
+        .loop-card {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 28px; text-align: center; transition: var(--transition);
+            position: relative; overflow: hidden;
         }
-
-        .layer-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .layer-title i {
-            color: var(--primary);
-            width: 20px;
-            height: 20px;
-        }
-
-        .layer-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-        }
-
-        .layer-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .feature-tag {
-            font-size: 0.75rem;
-            padding: 4px 12px;
+        .loop-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; transition: var(--transition); }
+        .loop-card:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.04); }
+        .loop-card.cyan::before { background: var(--primary); }
+        .loop-card.green::before { background: var(--accent); }
+        .loop-card.purple::before { background: var(--secondary); }
+        .loop-card .card-icon {
+            width: 48px; height: 48px; border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            color: var(--text-sub);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .loop-card.cyan .card-icon { color: var(--primary); }
+        .loop-card.green .card-icon { color: var(--accent); }
+        .loop-card.purple .card-icon { color: var(--secondary); }
+        .loop-card h4 { font-size: 1.1rem; margin-bottom: 4px; }
+        .loop-card .card-sub { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 12px; }
+        .loop-card p { font-size: 0.85rem; color: var(--text-sub); }
+
+        /* Solution Flow */
+        .solution-flow h3 { text-align: center; font-size: 1.2rem; margin-bottom: 24px; }
+        .flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .flow-node {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px; padding: 20px; text-align: center; transition: var(--transition);
+        }
+        .flow-node:hover { border-color: rgba(255, 255, 255, 0.25); }
+        .flow-node.exec { border-color: rgba(16, 185, 129, 0.3); }
+        .flow-node h5 { font-family: 'Roboto Mono', monospace; font-size: 0.95rem; margin-bottom: 6px; font-weight: 700; }
+        .flow-node.exec h5 { color: var(--accent); }
+        .flow-node p { font-size: 0.72rem; color: var(--text-dim); }
+        .flow-node .flow-label { font-size: 0.65rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; font-weight: 600; }
+        .flow-center {
+            grid-column: 1 / -1; text-align: center; padding: 16px;
+            font-family: 'Roboto Mono', monospace; font-size: 1.1rem;
+            font-weight: 800; color: var(--text-sub);
+            border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 12px;
+            background: rgba(255, 255, 255, 0.01);
         }
 
-        /* Modules Row */
-        .modules-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
+        /* Comparison Table */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .comparison-table th, .comparison-table td { padding: 14px 18px; text-align: left; font-size: 0.82rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+        .comparison-table th { color: var(--text-dim); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .comparison-table td:first-child { color: var(--text-sub); font-weight: 500; }
+        .comparison-table td:nth-child(2) { color: var(--text-dim); }
+        .comparison-table td:nth-child(3) { color: var(--primary); font-weight: 600; }
 
-        .module-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: left;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
+        /* Architecture reuse */
+        .layer { margin-bottom: 40px; position: relative; }
+        .layer-header { margin-bottom: 24px; }
+        .layer-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+        .layer-title i { color: var(--primary); width: 20px; height: 20px; }
+        .layer-subtitle { font-size: 0.9rem; color: var(--text-sub); }
+        .layer-features { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+        .feature-tag { font-size: 0.75rem; padding: 4px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 100px; color: var(--text-sub); }
+        .modules-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; }
+        .module-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; text-align: left; transition: var(--transition); cursor: pointer; position: relative; overflow: hidden; }
+        .module-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: transparent; transition: var(--transition); }
+        .module-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
+        .module-card.cyan:hover { border-color: var(--primary); } .module-card.cyan:hover::before { background: var(--primary); }
+        .module-card.purple:hover { border-color: var(--secondary); } .module-card.purple:hover::before { background: var(--secondary); }
+        .module-card.green:hover { border-color: var(--accent); } .module-card.green:hover::before { background: var(--accent); }
+        .module-card.amber:hover { border-color: var(--warning); } .module-card.amber:hover::before { background: var(--warning); }
+        .module-icon { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--primary); }
+        .module-card.purple .module-icon { color: var(--secondary); }
+        .module-card.green .module-icon { color: var(--accent); }
+        .module-card.amber .module-icon { color: var(--warning); }
+        .module-name { font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .module-desc { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px; }
+        .module-note { font-size: 0.75rem; color: var(--text-dim); padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); line-height: 1.4; }
+        .defense-layer { border-left: 4px solid var(--warning); }
+        .nss-layer { background: linear-gradient(90deg, rgba(124, 58, 237, 0.1), rgba(0, 212, 255, 0.1)); border: 1px dashed var(--secondary); text-align: center; }
+        .agentx-container { margin-top: 30px; padding: 24px; background: rgba(0, 0, 0, 0.2); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .agentx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; }
+        .agentx-item { background: rgba(255, 255, 255, 0.02); padding: 16px; border-radius: 12px; text-align: center; }
+        .agentx-item h5 { font-size: 0.85rem; color: var(--accent); margin-bottom: 4px; }
+        .agentx-item p { font-size: 0.7rem; color: var(--text-dim); }
+        .simreal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+        .env-card { padding: 20px; text-align: center; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .env-card.sim { border-color: var(--primary); } .env-card.real { border-color: var(--warning); }
+        .env-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
+        .connector { display: flex; flex-direction: column; align-items: center; padding: 20px 0; color: var(--text-dim); }
+        .glow-line { width: 2px; height: 40px; background: linear-gradient(to bottom, transparent, var(--primary), transparent); margin: 8px 0; }
+        .feedback-loop { margin-top: 60px; padding: 30px; background: rgba(124, 58, 237, 0.05); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; text-align: center; }
+        .loop-title { font-size: 1rem; font-weight: 700; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .loop-steps { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .step-pill { background: rgba(255, 255, 255, 0.05); padding: 8px 16px; border-radius: 100px; font-size: 0.8rem; color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .step-arrow { color: var(--secondary); font-weight: 800; }
 
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: transparent;
-            transition: var(--transition);
-        }
+        /* Tech Detail Cards */
+        .tech-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px; }
+        .tech-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; transition: var(--transition); }
+        .tech-card:hover { border-color: rgba(255, 255, 255, 0.2); }
+        .tech-card-number { font-size: 0.7rem; color: var(--accent); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .tech-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+        .tech-card h4 span { color: var(--accent); }
+        .tech-card-desc { font-size: 0.8rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 16px; }
+        .tech-card-flow { display: flex; align-items: center; gap: 8px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+        .flow-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px 14px; text-align: center; font-size: 0.75rem; min-width: 100px; }
+        .flow-box.highlight { border-color: var(--accent); background: rgba(16, 185, 129, 0.08); }
+        .flow-box small { color: var(--text-dim); font-size: 0.65rem; display: block; }
+        .flow-arrow-sm { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
+        .tech-card-tagline { font-size: 0.75rem; color: var(--accent); font-weight: 600; text-align: center; margin-top: 12px; }
+        .tech-card-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .pill { font-size: 0.7rem; padding: 4px 10px; border-radius: 100px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-sub); }
+        .pill.accent { border-color: rgba(16, 185, 129, 0.3); color: var(--accent); }
+        .cycle-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0; }
+        .cycle-step { background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 10px; text-align: center; font-size: 0.72rem; color: var(--text-sub); }
+        .cycle-step strong { display: block; font-size: 0.65rem; color: var(--primary); margin-bottom: 4px; }
+        .provider-badges { display: flex; gap: 8px; margin-bottom: 12px; justify-content: center; }
+        .provider-badge { font-size: 0.7rem; padding: 3px 10px; border-radius: 6px; background: rgba(124, 58, 237, 0.15); color: var(--secondary); border: 1px solid rgba(124, 58, 237, 0.3); }
 
-        .module-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
-        }
+        /* Tech Stack */
+        .mujoco-section { border-left: 4px solid var(--warning); }
+        .mujoco-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+        .mujoco-badge { font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.15); color: var(--warning); font-weight: 600; }
+        .definition-box { background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 12px; padding: 16px; margin: 16px 0; }
+        .definition-box strong { color: var(--primary); font-size: 0.85rem; }
+        .definition-box p { font-size: 0.8rem; color: var(--text-sub); margin-top: 6px; }
+        .mujoco-conclusion { font-size: 0.85rem; color: var(--text-sub); margin-top: 16px; line-height: 1.7; }
+        .mujoco-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .mujoco-table th, .mujoco-table td { padding: 12px 16px; text-align: left; font-size: 0.82rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+        .mujoco-table th { color: var(--warning); font-weight: 600; font-size: 0.75rem; }
+        .mujoco-table td:first-child { color: var(--text-main); font-weight: 500; }
+        .mujoco-table td:nth-child(2) { color: var(--text-sub); }
 
-        .module-card.cyan:hover {
-            border-color: var(--primary);
-        }
+        /* Stack Diagram */
+        .stack-diagram { margin: 30px 0; }
+        .stack-diagram-title { font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 20px; }
+        .stack-layers { display: flex; flex-direction: column; gap: 4px; }
+        .stack-layer { padding: 12px 20px; text-align: center; font-size: 0.78rem; font-weight: 500; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .layer-top { background: rgba(0, 212, 255, 0.08); border-color: rgba(0, 212, 255, 0.2); color: var(--primary); }
+        .layer-api { background: rgba(124, 58, 237, 0.08); border-color: rgba(124, 58, 237, 0.2); color: var(--secondary); }
+        .layer-runtime { background: rgba(124, 58, 237, 0.06); border-color: rgba(124, 58, 237, 0.15); color: var(--secondary); }
+        .layer-mission { background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.2); color: var(--accent); }
+        .layer-nav { background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.15); color: var(--accent); }
+        .layer-behavior { background: rgba(255, 255, 255, 0.03); color: var(--text-sub); }
+        .layer-motion { background: rgba(255, 255, 255, 0.02); color: var(--text-sub); }
+        .layer-embedded { background: rgba(245, 158, 11, 0.06); border-color: rgba(245, 158, 11, 0.15); color: var(--warning); font-size: 0.72rem; }
+        .stack-split { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+        .layer-real { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.25); color: var(--warning); }
+        .layer-sim { background: rgba(0, 212, 255, 0.1); border-color: rgba(0, 212, 255, 0.25); color: var(--primary); }
 
-        .module-card.cyan:hover::before {
-            background: var(--primary);
-        }
+        .feature-cards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 30px 0; }
+        .feature-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 20px; }
+        .feature-card h5 { font-size: 0.88rem; color: var(--accent); margin-bottom: 8px; }
+        .feature-card p { font-size: 0.78rem; color: var(--text-sub); line-height: 1.5; }
+        .nss-card { background: linear-gradient(90deg, rgba(124, 58, 237, 0.08), rgba(0, 212, 255, 0.08)); border: 1px dashed var(--secondary); border-radius: 16px; padding: 24px; text-align: center; margin: 30px 0; }
+        .nss-card h4 { font-family: 'Roboto Mono', monospace; color: var(--secondary); font-size: 1rem; margin-bottom: 10px; }
+        .nss-card p { font-size: 0.82rem; color: var(--text-sub); }
+        .hardware-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+        .hw-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; }
+        .hw-card.cyan-accent { border-left: 3px solid var(--primary); }
+        .hw-card.green-accent { border-left: 3px solid var(--accent); }
+        .hw-card h5 { font-size: 0.95rem; margin-bottom: 10px; }
+        .hw-card p { font-size: 0.8rem; color: var(--text-sub); line-height: 1.6; }
 
-        .module-card.purple:hover {
-            border-color: var(--secondary);
-        }
+        /* Timeline */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.08); }
+        .timeline-item { position: relative; margin-bottom: 30px; padding: 20px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; }
+        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--text-dim); border: 2px solid var(--bg-deep); }
+        .timeline-item.completed::before { background: var(--accent); box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+        .timeline-item.in-progress::before { background: var(--primary); box-shadow: 0 0 10px rgba(0, 212, 255, 0.4); animation: pulse 2s infinite; }
+        .timeline-item.in-progress { border-color: rgba(0, 212, 255, 0.2); }
+        .timeline-item.completed { border-color: rgba(16, 185, 129, 0.15); }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.4); } 50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); } }
+        .timeline-phase { font-size: 0.7rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .timeline-title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .status-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+        .status-badge.done { background: rgba(16, 185, 129, 0.15); color: var(--accent); }
+        .status-badge.progress { background: rgba(0, 212, 255, 0.15); color: var(--primary); }
+        .status-badge.plan { background: rgba(255, 255, 255, 0.05); color: var(--text-dim); }
+        .timeline-tasks { display: flex; flex-direction: column; gap: 6px; }
+        .timeline-task { font-size: 0.8rem; color: var(--text-sub); padding-left: 16px; position: relative; }
+        .timeline-task::before { content: '\00B7'; position: absolute; left: 4px; color: var(--text-dim); }
+        .decisions-card { margin-top: 30px; }
+        .decisions-card h4 { font-size: 1.1rem; margin-bottom: 20px; }
+        .decision-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 0.85rem; color: var(--text-sub); }
+        .decision-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+        .decision-icon.done { background: rgba(16, 185, 129, 0.15); color: var(--accent); }
+        .decision-icon.wip { background: rgba(0, 212, 255, 0.15); color: var(--primary); }
 
-        .module-card.purple:hover::before {
-            background: var(--secondary);
-        }
+        .site-footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.75rem; color: var(--text-dim); }
 
-        .module-card.green:hover {
-            border-color: var(--accent);
-        }
+        /* 로딩 인디케이터 */
+        .loading { text-align: center; padding: 60px 0; color: var(--text-dim); font-size: 0.85rem; }
 
-        .module-card.green:hover::before {
-            background: var(--accent);
-        }
-
-        .module-card.amber:hover {
-            border-color: var(--warning);
-        }
-
-        .module-card.amber:hover::before {
-            background: var(--warning);
-        }
-
-        .module-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            color: var(--primary);
-        }
-
-        .module-card.purple .module-icon {
-            color: var(--secondary);
-        }
-
-        .module-card.green .module-icon {
-            color: var(--accent);
-        }
-
-        .module-card.amber .module-icon {
-            color: var(--warning);
-        }
-
-        .module-name {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .module-desc {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-            margin-bottom: 12px;
-        }
-
-        .module-note {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            line-height: 1.4;
-        }
-
-        /* Special Sections */
-        .defense-layer {
-            border-left: 4px solid var(--warning);
-        }
-
-        .nss-layer {
-            background: linear-gradient(90deg, rgba(124, 58, 237, 0.1), rgba(0, 212, 255, 0.1));
-            border: 1px dashed var(--secondary);
-            text-align: center;
-        }
-
-        /* Node Section */
-        .agentx-container {
-            margin-top: 30px;
-            padding: 24px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .agentx-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .agentx-item {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .agentx-item h5 {
-            font-size: 0.85rem;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .agentx-item p {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-        }
-
-        /* Sim/Real Row */
-        .simreal-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .env-card {
-            padding: 20px;
-            text-align: center;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .env-card.sim {
-            border-color: var(--primary);
-        }
-
-        .env-card.real {
-            border-color: var(--warning);
-        }
-
-        .env-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        /* Arrows / Connectivity */
-        .connector {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-            color: var(--text-dim);
-        }
-
-        .glow-line {
-            width: 2px;
-            height: 40px;
-            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
-            margin: 8px 0;
-        }
-
-        /* Feedback Loop Box */
-        .feedback-loop {
-            margin-top: 60px;
-            padding: 30px;
-            background: rgba(124, 58, 237, 0.05);
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        .loop-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .loop-steps {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .step-pill {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .step-arrow {
-            color: var(--secondary);
-            font-weight: 800;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 1.8rem;
-            }
-
-            .simreal-row {
-                grid-template-columns: 1fr;
-            }
-
-            .modules-row {
-                grid-template-columns: 1fr;
-            }
+            .hero .main-title { font-size: 1.8rem; }
+            .loop-cards, .flow-grid, .tech-cards-grid, .feature-cards-row, .hardware-row, .simreal-row { grid-template-columns: 1fr; }
+            .modules-row { grid-template-columns: 1fr; }
+            .section-header h2 { font-size: 1.6rem; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="main-header">
-            <span class="brand-name">XRX Digital Twin Platform</span>
-            <h1 class="main-title">XDT Architecture</h1>
-            <p class="main-subtitle">Command → Orchestration → Execution → Learning loop for next-gen digital
-                transformation.</p>
-        </header>
-
-        <!-- Command Layer -->
-        <section class="layer">
-            <div class="glass-card">
-                <div class="layer-header">
-                    <h3 class="layer-title"><i data-lucide="layout-dashboard"></i> XDT.ControlPanel</h3>
-                    <p class="layer-subtitle">운영자가 전체 시스템을 지휘하고 모니터링하는 통합 관제 허브</p>
-                    <div class="layer-features">
-                        <span class="feature-tag">Fleet Telemetry</span>
-                        <span class="feature-tag">Operation Mode Toggle</span>
-                        <span class="feature-tag">System Master Control</span>
-                    </div>
-                </div>
-
-                <div class="modules-row">
-                    <!-- XDT.Play -->
-                    <div class="module-card cyan">
-                        <div class="module-icon"><i data-lucide="gamepad-2"></i></div>
-                        <h4 class="module-name">XDT.Play</h4>
-                        <p class="module-desc">Human-in-the-loop Control Layer</p>
-                        <p class="module-note">사람이 직접 조작하여 고품질의 기보(GT 학습 데이터)를 생성하는 인터페이스</p>
-                    </div>
-
-                    <!-- XDT.LLM -->
-                    <div class="module-card purple">
-                        <div class="module-icon"><i data-lucide="message-square"></i></div>
-                        <h4 class="module-name">XDT.LLM</h4>
-                        <p class="module-desc">Natural Language to DSL Engine</p>
-                        <p class="module-note">자연어 명령을 시스템 시나리오 및 실행 규칙으로 변환하여 지능형 제어 지원</p>
-                    </div>
-
-                    <!-- XDT.PilotX -->
-                    <div class="module-card amber">
-                        <div class="module-icon"><i data-lucide="shield-check"></i></div>
-                        <h4 class="module-name">XDT.PilotX</h4>
-                        <p class="module-desc">AI Autonomous Strategic Engine</p>
-                        <p class="module-note">MCTS와 고도화된 강화학습을 통해 다수 노드를 자율적으로 지휘하는 가상 사령관</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Connection -->
-        <div class="connector">
-            <span style="font-size: 0.7rem; color: var(--text-dim);">Bidirectional Data Link</span>
-            <div class="glow-line"></div>
-            <i data-lucide="chevrons-down" style="width: 16px; color: var(--primary);"></i>
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <span class="nav-brand">XDT</span>
+            <div class="nav-item active" data-section="about">XDT 소개</div>
+            <div class="nav-item" data-section="architecture">시스템 아키텍처</div>
+            <div class="nav-item" data-section="techstack">기술 스택</div>
+            <div class="nav-item" data-section="status">개발 현황</div>
         </div>
+    </nav>
 
-        <!-- Orchestration Layer -->
-        <section class="layer">
-            <div class="glass-card">
-                <div class="layer-header" style="text-align: center;">
-                    <h3 class="layer-title" style="justify-content: center;"><i data-lucide="database"></i>
-                        XDT.SpaceTime</h3>
-                    <p class="layer-subtitle">3D Orchestration & 시계열 데이터 밸리데이션 센터</p>
-                    <div class="layer-features" style="justify-content: center;">
-                        <span class="feature-tag">Time-Series DB</span>
-                        <span class="feature-tag">Web/App Visualization</span>
-                        <span class="feature-tag">State Summary</span>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <!-- 각 섹션은 pages/*.html에서 동적으로 로드됩니다 -->
+        <section id="about" class="section active">
+            <div class="loading">로딩 중...</div>
         </section>
-
-        <!-- Defense Specialized -->
-        <section class="layer">
-            <div class="glass-card defense-layer">
-                <div class="layer-header">
-                    <h3 class="layer-title"><i data-lucide="crosshair"></i> XDT.Defense</h3>
-                    <p class="layer-subtitle">GNSS(위성 항법) 통합 기반 군소요 맞춤형 특화 솔루션</p>
-                </div>
-                <div class="layer-features">
-                    <span class="feature-tag">GNSS + Indoor Navigation</span>
-                    <span class="feature-tag">Tactical Simulation</span>
-                    <span class="feature-tag">Outdoor Expansion</span>
-                </div>
-            </div>
+        <section id="architecture" class="section">
+            <div class="loading">로딩 중...</div>
         </section>
-
-        <!-- Standard Protocol -->
-        <section class="layer">
-            <div class="glass-card nss-layer">
-                <h4 class="tech-font" style="font-size: 1rem; color: var(--secondary); margin-bottom: 8px;">NSS (Node
-                    Signal Specification)</h4>
-                <p style="font-size: 0.8rem; color: var(--text-sub);">디지털트윈과 물리 노드 간의 표준 통신 프로토콜 · AI 학습 최적화 메타데이터 포함
-                </p>
-            </div>
+        <section id="techstack" class="section">
+            <div class="loading">로딩 중...</div>
         </section>
-
-        <!-- Execution Layer -->
-        <section class="layer">
-            <div class="glass-card">
-                <div class="layer-header" style="text-align: center;">
-                    <h3 class="layer-title" style="justify-content: center;"><i data-lucide="box"></i> XDT.Node</h3>
-                    <p class="layer-subtitle">지능과 바디가 결합된 통합 유닛 컨테이너</p>
-                </div>
-
-                <div class="agentx-container">
-                    <div style="text-align: center; margin-bottom: 15px;">
-                        <span class="tech-font"
-                            style="color: var(--accent); font-size: 0.9rem; font-weight: 700;">XDT.AgentX</span>
-                        <span
-                            style="font-size: 0.7rem; background: var(--accent); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">EDGE
-                            AI LAYER</span>
-                    </div>
-                    <div class="agentx-grid">
-                        <div class="agentx-item">
-                            <h5>SLAM</h5>
-                            <p>Mapping & Localization</p>
-                        </div>
-                        <div class="agentx-item">
-                            <h5>Perception</h5>
-                            <p>Sensor Data Processing</p>
-                        </div>
-                        <div class="agentx-item">
-                            <h5>Planning</h5>
-                            <p>Path & Logic Planning</p>
-                        </div>
-                        <div class="agentx-item">
-                            <h5>Control</h5>
-                            <p>Actuator Command Execution</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="simreal-row">
-                    <div class="env-card sim">
-                        <span class="env-label">Virtual World</span>
-                        <h4 class="tech-font" style="color: var(--primary);">XDT.Sim</h4>
-                        <p style="font-size: 0.75rem; color: var(--text-sub); margin-top: 8px;">Physics:
-                            MuJoCo<br>Visuals: Unreal Engine</p>
-                    </div>
-                    <div class="env-card real">
-                        <span class="env-label">Physical World</span>
-                        <h4 class="tech-font" style="color: var(--warning);">XDT.Real</h4>
-                        <p style="font-size: 0.75rem; color: var(--text-sub); margin-top: 8px;">Physical Robot
-                            &<br>Real-world Hardware</p>
-                    </div>
-                </div>
-            </div>
+        <section id="status" class="section">
+            <div class="loading">로딩 중...</div>
         </section>
-
-        <!-- Feedback Loop -->
-        <footer class="feedback-loop">
-            <h4 class="loop-title"><i data-lucide="refresh-cw"></i> 학습 피드백 루프 (Reinforcement Learning)</h4>
-            <div class="loop-steps">
-                <span class="step-pill">XDT.Play 조작</span>
-                <span class="step-arrow">→</span>
-                <span class="step-pill">기보 생성</span>
-                <span class="step-arrow">→</span>
-                <span class="step-pill">SpaceTime DB 저장</span>
-                <span class="step-arrow">→</span>
-                <span class="step-pill">MindX 학습 (MCTS+RL)</span>
-                <span class="step-arrow">→</span>
-                <span class="step-pill">PilotX 추론</span>
-                <span class="step-arrow">→</span>
-                <span class="step-pill">자율 운영</span>
-            </div>
-        </footer>
     </div>
 
+    <footer class="site-footer"><p>&copy; 2025 XRX Inc. All Rights Reserved. | XDT: eXtended Digital Twin Platform</p></footer>
+
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+        (function(){
+            var navItems = document.querySelectorAll('.nav-item');
+            var sections = document.querySelectorAll('.section');
+            var validSections = ['about', 'architecture', 'techstack', 'status'];
+            // 각 섹션의 로딩 상태를 캐싱
+            var loadedSections = {};
+
+            // HTML 파일을 fetch하여 섹션에 삽입하는 함수
+            function loadSection(id) {
+                if (loadedSections[id]) return Promise.resolve();
+                var section = document.getElementById(id);
+                if (!section) return Promise.resolve();
+
+                return fetch('pages/' + id + '.html')
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('페이지 로드 실패');
+                        return response.text();
+                    })
+                    .then(function(html) {
+                        section.innerHTML = html;
+                        loadedSections[id] = true;
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    })
+                    .catch(function(err) {
+                        section.innerHTML = '<div class="loading">콘텐츠를 불러올 수 없습니다.</div>';
+                    });
+            }
+
+            // 섹션 전환 함수
+            function switchSection(id) {
+                sections.forEach(function(s) { s.classList.remove('active'); });
+                navItems.forEach(function(n) { n.classList.remove('active'); });
+
+                var target = document.getElementById(id);
+                if (target) {
+                    target.classList.add('active');
+                    requestAnimationFrame(function() { target.style.opacity = '1'; });
+                }
+                navItems.forEach(function(n) {
+                    if (n.getAttribute('data-section') === id) n.classList.add('active');
+                });
+                history.replaceState(null, null, '#' + id);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // 해당 섹션의 콘텐츠를 로드
+                loadSection(id);
+            }
+
+            // 네비게이션 클릭 이벤트
+            navItems.forEach(function(n) {
+                n.addEventListener('click', function() {
+                    switchSection(this.getAttribute('data-section'));
+                });
+            });
+
+            // 해시 변경 이벤트
+            window.addEventListener('hashchange', function() {
+                var h = window.location.hash.replace('#', '');
+                if (h && validSections.indexOf(h) !== -1) switchSection(h);
+            });
+
+            // 초기화: 해시에 따라 섹션 로드
+            function init() {
+                var h = window.location.hash.replace('#', '');
+                var initialSection = (h && validSections.indexOf(h) !== -1) ? h : 'about';
+                switchSection(initialSection);
+            }
+
+            init();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        })();
     </script>
 </body>
-
 </html>
-```
