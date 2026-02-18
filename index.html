@@ -308,12 +308,41 @@
 
         .site-footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.75rem; color: var(--text-dim); }
 
+        /* 서술형 소개 */
+        .narrative { margin-bottom: 40px; }
+        .narrative h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 16px; }
+        .narrative h3 .hl { color: var(--primary); }
+        .narrative p { font-size: 0.92rem; color: var(--text-sub); line-height: 1.85; margin-bottom: 14px; }
+        .narrative p strong { color: var(--text-main); }
+        .narrative .em-cyan { color: var(--primary); font-weight: 600; }
+        .narrative .em-green { color: var(--accent); font-weight: 600; }
+        .narrative .em-purple { color: var(--secondary); font-weight: 600; }
+        .narrative .em-amber { color: var(--warning); font-weight: 600; }
+        .quote-box { background: rgba(0, 212, 255, 0.04); border-left: 3px solid var(--primary); padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 24px 0; }
+        .quote-box p { font-size: 0.95rem; color: var(--text-main); font-weight: 500; margin: 0; line-height: 1.7; }
+        .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 30px 0; }
+        .metric-item { text-align: center; padding: 20px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; }
+        .metric-number { font-family: 'Roboto Mono', monospace; font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
+        .metric-number.cyan { color: var(--primary); }
+        .metric-number.green { color: var(--accent); }
+        .metric-number.purple { color: var(--secondary); }
+        .metric-number.amber { color: var(--warning); }
+        .metric-label { font-size: 0.72rem; color: var(--text-dim); }
+        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0; }
+        .service-item { padding: 24px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; transition: var(--transition); }
+        .service-item:hover { border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.04); }
+        .service-item .svc-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+        .service-item h5 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+        .service-item p { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; }
+        .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.08), transparent); margin: 50px 0; }
+
         /* 로딩 인디케이터 */
         .loading { text-align: center; padding: 60px 0; color: var(--text-dim); font-size: 0.85rem; }
 
         @media (max-width: 768px) {
             .hero .main-title { font-size: 1.8rem; }
-            .loop-cards, .flow-grid, .tech-cards-grid, .feature-cards-row, .hardware-row, .simreal-row { grid-template-columns: 1fr; }
+            .loop-cards, .flow-grid, .tech-cards-grid, .feature-cards-row, .hardware-row, .simreal-row, .service-grid { grid-template-columns: 1fr; }
+            .metric-row { grid-template-columns: repeat(2, 1fr); }
             .modules-row { grid-template-columns: 1fr; }
             .section-header h2 { font-size: 1.6rem; }
         }
