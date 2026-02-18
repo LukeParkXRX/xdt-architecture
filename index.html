@@ -345,12 +345,46 @@
         .service-item p { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; }
         .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.08), transparent); margin: 50px 0; }
 
+        /* 팀 */
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+        .team-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 20px; background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px;
+            transition: var(--transition);
+        }
+        .team-card:hover { border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.04); }
+        .team-card.leader { border-color: rgba(0, 212, 255, 0.2); }
+        .team-card.leader .team-avatar { background: rgba(0, 212, 255, 0.1); color: var(--primary); }
+        .team-avatar {
+            width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05); display: flex;
+            align-items: center; justify-content: center; color: var(--text-dim);
+        }
+        .team-avatar i { width: 20px; height: 20px; }
+        .team-info h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 2px; }
+        .team-role { font-size: 0.72rem; color: var(--text-dim); }
+        .contact-section { margin-bottom: 30px; }
+        .contact-card { display: flex; align-items: center; gap: 16px; padding: 20px 24px; }
+        .contact-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0, 212, 255, 0.08); display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
+        .contact-icon i { width: 18px; height: 18px; }
+        .contact-body h5 { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .contact-link { color: var(--primary); text-decoration: none; font-size: 0.95rem; font-weight: 600; }
+        .contact-link:hover { text-decoration: underline; }
+        .office-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .office-card { padding: 22px; text-align: center; }
+        .office-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; color: var(--text-dim); margin: 0 auto 12px; }
+        .office-icon i { width: 16px; height: 16px; }
+        .office-badge { font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 10px; }
+        .office-addr { font-size: 0.8rem; color: var(--text-sub); line-height: 1.6; }
+
         /* 로딩 인디케이터 */
         .loading { text-align: center; padding: 60px 0; color: var(--text-dim); font-size: 0.85rem; }
 
         @media (max-width: 768px) {
             .hero .main-title { font-size: 1.8rem; }
-            .loop-cards, .flow-grid, .tech-cards-grid, .feature-cards-row, .hardware-row, .simreal-row, .service-grid { grid-template-columns: 1fr; }
+            .loop-cards, .flow-grid, .tech-cards-grid, .feature-cards-row, .hardware-row, .simreal-row, .service-grid, .office-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr 1fr; }
             .metric-row { grid-template-columns: repeat(2, 1fr); }
             .modules-row { grid-template-columns: 1fr; }
             .section-header h2 { font-size: 1.6rem; }
@@ -361,11 +395,12 @@
 <body>
     <nav class="nav-bar">
         <div class="nav-inner">
-            <a class="nav-brand" href="#about" data-home="true"><img src="assets/xrx-logo-white.png" alt="XRX"><span>XDT</span></a>
+            <a class="nav-brand" href="#about" data-home="true"><img src="assets/xrx-logo-white.png" alt="XRX"></a>
             <div class="nav-item active" data-section="about">XDT 소개</div>
             <div class="nav-item" data-section="architecture">시스템 아키텍처</div>
             <div class="nav-item" data-section="techstack">기술 스택</div>
             <div class="nav-item" data-section="status">개발 현황</div>
+            <div class="nav-item" data-section="team">팀</div>
         </div>
     </nav>
 
@@ -383,6 +418,9 @@
         <section id="status" class="section">
             <div class="loading">로딩 중...</div>
         </section>
+        <section id="team" class="section">
+            <div class="loading">로딩 중...</div>
+        </section>
     </div>
 
     <footer class="site-footer"><p>&copy; 2025 XRX Inc. All Rights Reserved. | XDT: eXtended Digital Twin Platform</p></footer>
@@ -391,7 +429,7 @@
         (function(){
             var navItems = document.querySelectorAll('.nav-item');
             var sections = document.querySelectorAll('.section');
-            var validSections = ['about', 'architecture', 'techstack', 'status'];
+            var validSections = ['about', 'architecture', 'techstack', 'status', 'team'];
             // 각 섹션의 로딩 상태를 캐싱
             var loadedSections = {};
 
