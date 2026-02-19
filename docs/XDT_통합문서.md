@@ -73,22 +73,22 @@ XDT(eXtended Digital Twin)는 **공장 전체를 가상 세계에 그대로 복�
 
 XDT 플랫폼은 6개의 핵심 모듈이 유기적으로 연결되어, 명령부터 학습까지 하나의 순환 고리를 형성합니다.
 
-### DT.Play — 게임처럼 조종하는 관제 화면
+### xDT.Play — 게임처럼 조종하는 관제 화면
 복잡한 그래프 대신, RTS 게임처럼 직관적인 인터페이스로 로봇을 조종합니다. 운영자가 직접 조작한 데이터는 AI 학습의 핵심 재료(기보)가 됩니다.
 
-### DT.LLM — 말로 명령하는 AI 통역사
+### xDT.LLM — 말로 명령하는 AI 통역사
 "A라인 속도 올려줘"처럼 자연어로 말하면, AI가 시스템 명령어로 자동 변환합니다. 코딩을 몰라도 누구나 로봇을 제어할 수 있습니다.
 
-### DT.AgentX — 로봇의 두뇌
+### xDT.AgentX — 로봇의 두뇌
 드론, 4족 보행 로봇, 로봇팔 등 어떤 형태든 상관없이 하나의 표준으로 제어합니다. '인지 → 판단 → 실행'을 자율적으로 수행하는 엣지 AI 레이어입니다.
 
-### DT.SpaceTime — 중앙 관제탑
+### xDT.SpaceTime — 중앙 관제탑
 수십, 수백 대의 로봇 상태를 실시간으로 파악하고 군집 단위로 지휘합니다. 모든 데이터의 시계열 기록과 3D 시각화를 담당하는 플랫폼의 심장입니다.
 
-### DT.Sim — 리스크 제로 시뮬레이터
+### xDT.Sim — 리스크 제로 시뮬레이터
 Google DeepMind의 MuJoCo 물리엔진으로 현실과 동일한 물리 법칙을 재현합니다. 가상 세계에서 무한 반복 훈련 후, 검증된 결과만 현실에 적용합니다.
 
-### DT.MindX — 스스로 진화하는 AI
+### xDT.MindX — 스스로 진화하는 AI
 시뮬레이션과 현장 데이터를 끊임없이 학습하여, 점점 더 효율적인 운영 전략을 스스로 만들어냅니다. 바둑 AI처럼 경험이 쌓일수록 강해집니다.
 
 ---
@@ -106,18 +106,18 @@ XDT의 모든 가치는 이 세 단계의 무한 반복에서 나옵니다.
 ### XDT SOLUTION 전체 흐름
 
 ```
-DT.Play (명령 입력)
+xDT.Play (명령 입력)
     ↓ COMMANDS
-DT.AgentX (AI 판단 → 로봇 행동 지시)
+xDT.AgentX (AI 판단 → 로봇 행동 지시)
     ↓ EXECUTE
-DT.Sim (가상 환경 시뮬레이션 및 검증)
+xDT.Sim (가상 환경 시뮬레이션 및 검증)
     ↓ SIMULATE
 
 명령 → 실행 → 검증 → 학습 → 최적화 순환
 
-DT.LLM (자연어 → 시스템 명령 변환)     TRANSLATE
-DT.SpaceTime (전체 상태 기록 및 시각화)  MONITOR
-DT.MindX (데이터 학습 → 스스로 진화)     LEARN
+xDT.LLM (자연어 → 시스템 명령 변환)     TRANSLATE
+xDT.SpaceTime (전체 상태 기록 및 시각화)  MONITOR
+xDT.MindX (데이터 학습 → 스스로 진화)     LEARN
 ```
 
 ---
@@ -147,14 +147,14 @@ XDT는 '보여주는 도구'가 아니라 '실행하는 플랫폼'입니다.
 ┌──────────────────────────────────────────────────────────────┐
 │                     XDT.ControlPanel                          │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────────────┐  │
-│  │   XDT.Play   │ │   XDT.LLM   │ │    XDT.PilotX        │  │
+│  │   XxDT.Play   │ │   XxDT.LLM   │ │    XxDT.PilotX        │  │
 │  │ Human-in-the │ │ NL to DSL   │ │ AI Autonomous        │  │
 │  │ -loop Control│ │ Engine      │ │ Strategic Engine     │  │
 │  └──────────────┘ └──────────────┘ └──────────────────────┘  │
 ├──────────────────────────────────────────────────────────────┤
 │                  Bidirectional Data Link                       │
 ├──────────────────────────────────────────────────────────────┤
-│                    XDT.SpaceTime                              │
+│                    XxDT.SpaceTime                              │
 │         3D Orchestration & 시계열 데이터 밸리데이션 센터          │
 ├──────────────────────────────────────────────────────────────┤
 │                     XDT.Defense                               │
@@ -165,11 +165,11 @@ XDT는 '보여주는 도구'가 아니라 '실행하는 플랫폼'입니다.
 ├──────────────────────────────────────────────────────────────┤
 │                       XDT.Node                                │
 │  ┌────────────────────────────────────────────────────────┐  │
-│  │               XDT.AgentX (EDGE AI LAYER)               │  │
+│  │               XxDT.AgentX (EDGE AI LAYER)               │  │
 │  │  SLAM  │  Perception  │  Planning  │  Control          │  │
 │  └────────────────────────────────────────────────────────┘  │
 │  ┌────────────────────┐  ┌────────────────────────────────┐  │
-│  │    XDT.Sim         │  │        XDT.Real                │  │
+│  │    XxDT.Sim         │  │        XDT.Real                │  │
 │  │  Virtual World     │  │      Physical World            │  │
 │  │  Physics: MuJoCo   │  │    Physical Robot &            │  │
 │  │  Visuals: Unreal   │  │    Real-world Hardware         │  │
@@ -180,26 +180,26 @@ XDT는 '보여주는 도구'가 아니라 '실행하는 플랫폼'입니다.
 ### 학습 피드백 루프 (Reinforcement Learning)
 
 ```
-XDT.Play 조작 → 기보 생성 → SpaceTime DB 저장 → MindX 학습 (MCTS+RL) → PilotX 추론 → 자율 운영
+XxDT.Play 조작 → 기보 생성 → SpaceTime DB 저장 → MindX 학습 (MCTS+RL) → PilotX 추론 → 자율 운영
 ```
 
 ---
 
 ## 9. 핵심 기술 상세
 
-### 핵심 기술 01: DT.AgentX — 단일 로봇 실행 플랫폼
+### 핵심 기술 01: xDT.AgentX — 단일 로봇 실행 플랫폼
 
-4족 보행 로봇, 드론, 로봇 팔 등 형태에 상관 없이 DT.AgentX가 표준 명령어로 변환하여 장치를 제어합니다.
+4족 보행 로봇, 드론, 로봇 팔 등 형태에 상관 없이 xDT.AgentX가 표준 명령어로 변환하여 장치를 제어합니다.
 
 ```
-Command Center (명령 센터) → DT.AgentX (인지 판단 제어) → Real & Sim (실제 & 가상 환경)
+Command Center (명령 센터) → xDT.AgentX (인지 판단 제어) → Real & Sim (실제 & 가상 환경)
 ```
 
 - **1 Robot = 1 AgentX**: 개별 로봇마다 독립된 AgentX 인스턴스
 - **자율성**: 중앙 서버 연결이 끊겨도 독자적인 생존과 임무 수행 가능
 - **동일성**: 가상(Sim)과 현실(Real)에서 완벽히 동일한 로직으로 작동
 
-### 핵심 기술 02: DT.SpaceTime — 중앙 관제탑
+### 핵심 기술 02: xDT.SpaceTime — 중앙 관제탑
 
 디지털트윈의 '중앙 두뇌'이자 '통합 관제탑'. 여러 장치를 마치 게임 유닛처럼 다룹니다.
 
@@ -207,15 +207,15 @@ Command Center (명령 센터) → DT.AgentX (인지 판단 제어) → Real & S
 - **임무 기반 제어** (Mission-Based): 작업 목표에 따라 최적의 로봇에게 자동 분배
 - **중앙 지능** (Central Intelligence): 전체 시스템 상태를 기반으로 전략적 판단
 
-### 핵심 기술 03: DT.MindX — 지능/학습 모듈
+### 핵심 기술 03: xDT.MindX — 지능/학습 모듈
 
-DT.Spacetime으로부터 정보를 받아 AI가 스스로 학습하는 모듈
+xDT.Spacetime으로부터 정보를 받아 AI가 스스로 학습하는 모듈
 
 ```
-DT.Spacetime (데이터) → DT.MindX (지능/학습) → Insights & Knowledge
+xDT.Spacetime (데이터) → xDT.MindX (지능/학습) → Insights & Knowledge
 ```
 
-### 핵심 기술 04: DT.Sim — 시뮬레이터
+### 핵심 기술 04: xDT.Sim — 시뮬레이터
 
 학습하고 실행하고 분석하고 개선하고를 반복합니다.
 
@@ -226,15 +226,15 @@ DT.Spacetime (데이터) → DT.MindX (지능/학습) → Insights & Knowledge
 | STEP 3 | Live Feedback | 실시간 피드백 |
 | STEP 4 | Improvement | 지속적 개선 |
 
-### 핵심 기술 05: DT.Play — 사용자 인터페이스
+### 핵심 기술 05: xDT.Play — 사용자 인터페이스
 
 사용자가 디지털트윈과 상호작용하는 최종 화면입니다.
 
 ```
-User Input (사용자 명령) → DT.LLM (DSL 변환) → Virtual World (가상 세계 확인)
+User Input (사용자 명령) → xDT.LLM (DSL 변환) → Virtual World (가상 세계 확인)
 ```
 
-### 핵심 기술 06: DT.LLM — 자연어 변환 엔진
+### 핵심 기술 06: xDT.LLM — 자연어 변환 엔진
 
 사용자와 디지털 트윈 간의 통역사 역할을 합니다. (OpenAI, Google AI, Meta 멀티 프로바이더 지원)
 
@@ -270,7 +270,7 @@ Isaac Sim은 PhysX 기반으로 '안정적'일 뿐, 결정론적이지 않습니
 | 로봇 설계 | 구조 실험 |
 | 하이브리드 제어 | 제어+학습 통합 |
 
-### XDT.Node.DT.AgentX 소프트웨어 스택
+### XDT.Node.xDT.AgentX 소프트웨어 스택
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -290,7 +290,7 @@ Isaac Sim은 PhysX 기반으로 '안정적'일 뿐, 결정론적이지 않습니
 ├─────────────────────────────────────────────────────┤
 │ Embedded Control (PID, 센서, I/O, 모터루프, 토크계산)   │
 ├────────────────────────┬────────────────────────────┤
-│     Real (물리 하드웨어)  │  XDT.Simulator (가상 환경)  │
+│     Real (물리 하드웨어)  │  XxDT.Simulator (가상 환경)  │
 └────────────────────────┴────────────────────────────┘
 ```
 
@@ -326,10 +326,10 @@ Isaac Sim은 PhysX 기반으로 '안정적'일 뿐, 결정론적이지 않습니
 
 | Phase | 이름 | 상태 | 주요 항목 |
 |-------|------|------|----------|
-| **Phase 1** | 기반 구축 (Foundation) | ✅ 완료 | XDT 시스템 아키텍처 설계, NSS 통신 프로토콜 정의, DT.AgentX 기본 프레임워크 |
-| **Phase 2** | 핵심 엔진 개발 (Core Engine) | 🔵 진행 중 | MuJoCo 물리엔진 통합 (PhysX→MuJoCo 전환 완료), UE5 시각화 파이프라인, DT.Sim SIL 환경 |
-| **Phase 3** | 지능화 (Intelligence) | ⬜ 계획됨 | DT.MindX 강화학습 모듈, DT.PilotX MCTS 기반 자율 지휘, DT.LLM 자연어 명령 변환 |
-| **Phase 4** | 통합 & 확장 (Integration) | ⬜ 계획됨 | DT.SpaceTime 군집 제어, DT.Play RTS형 인터페이스, XDT.Defense 국방 특화 모듈 |
+| **Phase 1** | 기반 구축 (Foundation) | ✅ 완료 | XDT 시스템 아키텍처 설계, NSS 통신 프로토콜 정의, xDT.AgentX 기본 프레임워크 |
+| **Phase 2** | 핵심 엔진 개발 (Core Engine) | 🔵 진행 중 | MuJoCo 물리엔진 통합 (PhysX→MuJoCo 전환 완료), UE5 시각화 파이프라인, xDT.Sim SIL 환경 |
+| **Phase 3** | 지능화 (Intelligence) | ⬜ 계획됨 | xDT.MindX 강화학습 모듈, xDT.PilotX MCTS 기반 자율 지휘, xDT.LLM 자연어 명령 변환 |
+| **Phase 4** | 통합 & 확장 (Integration) | ⬜ 계획됨 | xDT.SpaceTime 군집 제어, xDT.Play RTS형 인터페이스, XDT.Defense 국방 특화 모듈 |
 | **Phase 5** | 상용화 (Commercialization) | ⬜ 계획됨 | Brainless Robot Solution 적용, Retrofit 레거시 장비 연동, 파트너사 연동 및 PoC |
 
 ### 주요 기술 결정 사항
@@ -338,7 +338,7 @@ Isaac Sim은 PhysX 기반으로 '안정적'일 뿐, 결정론적이지 않습니
 - ✅ 렌더링: Unreal Engine 5 채택
 - ✅ 통신규약: NSS (Node Signal Specification) 자체 표준 정의
 - ✅ 로봇 미들웨어: ROS 2 기반 통합
-- 🔄 DT.LLM: 멀티 프로바이더 지원 (OpenAI, Google AI, Meta)
+- 🔄 xDT.LLM: 멀티 프로바이더 지원 (OpenAI, Google AI, Meta)
 
 ---
 

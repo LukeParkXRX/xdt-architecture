@@ -1,0 +1,283 @@
+<!-- 게시판 섹션 -->
+<div class="section-header"><h2>Board</h2><p>팀 내부 커뮤니케이션 게시판</p></div>
+
+<!-- 게시판 컨테이너 -->
+<div id="board-app">
+    <!-- 글 목록 뷰 -->
+    <div id="board-list-view">
+        <div class="board-toolbar">
+            <span class="board-count" id="board-count">총 0개</span>
+            <button class="board-btn primary" onclick="boardShowWrite()"><i data-lucide="plus" style="width:14px;height:14px;"></i> 글쓰기</button>
+        </div>
+        <div id="board-list" class="board-list">
+            <div class="board-empty">아직 게시글이 없습니다.</div>
+        </div>
+    </div>
+
+    <!-- 글쓰기 뷰 -->
+    <div id="board-write-view" style="display:none;">
+        <div class="board-write-header">
+            <button class="board-btn ghost" onclick="boardShowList()"><i data-lucide="arrow-left" style="width:14px;height:14px;"></i> 목록</button>
+            <h3>새 글 작성</h3>
+        </div>
+        <div class="board-form glass-card">
+            <div class="form-group">
+                <label>작성자</label>
+                <input type="text" id="board-author" placeholder="이름을 입력하세요" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" id="board-title" placeholder="제목을 입력하세요" maxlength="100">
+            </div>
+            <div class="form-group">
+                <label>내용</label>
+                <div class="editor-toolbar">
+                    <button type="button" onclick="boardFormat('bold')" title="굵게"><b>B</b></button>
+                    <button type="button" onclick="boardFormat('italic')" title="기울임"><i>I</i></button>
+                    <button type="button" onclick="boardFormat('underline')" title="밑줄"><u>U</u></button>
+                    <span class="toolbar-sep"></span>
+                    <button type="button" onclick="boardFormat('insertUnorderedList')" title="목록">&#8226;</button>
+                </div>
+                <div id="board-content" class="board-editor" contenteditable="true" placeholder="내용을 입력하세요"></div>
+            </div>
+            <div class="form-actions">
+                <button class="board-btn ghost" onclick="boardShowList()">취소</button>
+                <button class="board-btn primary" onclick="boardSubmit()">등록</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 글 상세 뷰 -->
+    <div id="board-detail-view" style="display:none;">
+        <div class="board-write-header">
+            <button class="board-btn ghost" onclick="boardShowList()"><i data-lucide="arrow-left" style="width:14px;height:14px;"></i> 목록</button>
+        </div>
+        <div class="board-detail glass-card" id="board-detail-content"></div>
+        <!-- 댓글 영역 -->
+        <div class="board-comments glass-card">
+            <h4 class="comments-title"><i data-lucide="message-circle" style="width:16px;height:16px;"></i> 댓글 <span id="comment-count">0</span></h4>
+            <div id="comment-list" class="comment-list"></div>
+            <div class="comment-form">
+                <div class="comment-inputs">
+                    <input type="text" id="comment-author" placeholder="이름" maxlength="20">
+                    <input type="text" id="comment-text" placeholder="댓글을 입력하세요" maxlength="300" onkeydown="if(event.key==='Enter')boardAddComment()">
+                </div>
+                <button class="board-btn primary small" onclick="boardAddComment()">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+    var STORAGE_KEY = 'xdt_board_posts';
+    var currentPostId = null;
+
+    // localStorage 유틸
+    function getPosts() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+        catch(e) { return []; }
+    }
+    function savePosts(posts) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+    }
+    function genId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    }
+    function formatDate(ts) {
+        var d = new Date(ts);
+        var y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'),
+            day = String(d.getDate()).padStart(2,'0'),
+            h = String(d.getHours()).padStart(2,'0'),
+            min = String(d.getMinutes()).padStart(2,'0');
+        return y+'.'+m+'.'+day+' '+h+':'+min;
+    }
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // 목록 렌더링
+    function renderList() {
+        var posts = getPosts();
+        var listEl = document.getElementById('board-list');
+        var countEl = document.getElementById('board-count');
+        countEl.textContent = '총 ' + posts.length + '개';
+
+        if (posts.length === 0) {
+            listEl.innerHTML = '<div class="board-empty">아직 게시글이 없습니다.</div>';
+            return;
+        }
+        var html = '';
+        // 최신순 정렬
+        posts.sort(function(a,b){ return b.createdAt - a.createdAt; });
+        posts.forEach(function(post){
+            var commentCount = (post.comments || []).length;
+            html += '<div class="board-item" onclick="boardShowDetail(\''+post.id+'\')">'
+                + '<div class="board-item-main">'
+                + '<span class="board-item-title">'+escapeHtml(post.title)
+                + (commentCount > 0 ? ' <span class="board-comment-badge">'+commentCount+'</span>' : '')
+                + '</span>'
+                + '<span class="board-item-date">'+formatDate(post.createdAt)+'</span>'
+                + '</div>'
+                + '<div class="board-item-meta">'
+                + '<span class="board-item-author"><i data-lucide="user" style="width:12px;height:12px;"></i> '+escapeHtml(post.author)+'</span>'
+                + '</div>'
+                + '</div>';
+        });
+        listEl.innerHTML = html;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // 뷰 전환
+    window.boardShowList = function() {
+        document.getElementById('board-list-view').style.display = '';
+        document.getElementById('board-write-view').style.display = 'none';
+        document.getElementById('board-detail-view').style.display = 'none';
+        renderList();
+    };
+    window.boardShowWrite = function() {
+        document.getElementById('board-list-view').style.display = 'none';
+        document.getElementById('board-write-view').style.display = '';
+        document.getElementById('board-detail-view').style.display = 'none';
+        // 폼 초기화
+        document.getElementById('board-author').value = localStorage.getItem('xdt_board_last_author') || '';
+        document.getElementById('board-title').value = '';
+        document.getElementById('board-content').innerHTML = '';
+    };
+
+    // 글 등록
+    window.boardSubmit = function() {
+        var author = document.getElementById('board-author').value.trim();
+        var title = document.getElementById('board-title').value.trim();
+        var content = document.getElementById('board-content').innerHTML.trim();
+
+        if (!author) { alert('작성자를 입력하세요.'); return; }
+        if (!title) { alert('제목을 입력하세요.'); return; }
+        if (!content || content === '<br>') { alert('내용을 입력하세요.'); return; }
+
+        var posts = getPosts();
+        posts.push({
+            id: genId(),
+            author: author,
+            title: title,
+            content: content,
+            createdAt: Date.now(),
+            comments: []
+        });
+        savePosts(posts);
+        localStorage.setItem('xdt_board_last_author', author);
+        boardShowList();
+    };
+
+    // 글 상세
+    window.boardShowDetail = function(id) {
+        var posts = getPosts();
+        var post = null;
+        for (var i = 0; i < posts.length; i++) {
+            if (posts[i].id === id) { post = posts[i]; break; }
+        }
+        if (!post) return;
+        currentPostId = id;
+
+        document.getElementById('board-list-view').style.display = 'none';
+        document.getElementById('board-write-view').style.display = 'none';
+        document.getElementById('board-detail-view').style.display = '';
+
+        var detailEl = document.getElementById('board-detail-content');
+        detailEl.innerHTML = '<div class="detail-header">'
+            + '<h3 class="detail-title">'+escapeHtml(post.title)+'</h3>'
+            + '<div class="detail-meta">'
+            + '<span><i data-lucide="user" style="width:13px;height:13px;"></i> '+escapeHtml(post.author)+'</span>'
+            + '<span><i data-lucide="calendar" style="width:13px;height:13px;"></i> '+formatDate(post.createdAt)+'</span>'
+            + '</div>'
+            + '</div>'
+            + '<div class="detail-body">'+post.content+'</div>'
+            + '<div class="detail-actions">'
+            + '<button class="board-btn ghost small" onclick="boardDeletePost(\''+post.id+'\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> 삭제</button>'
+            + '</div>';
+
+        renderComments(post);
+        document.getElementById('comment-author').value = localStorage.getItem('xdt_board_last_author') || '';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    };
+
+    // 댓글 렌더링
+    function renderComments(post) {
+        var comments = post.comments || [];
+        var countEl = document.getElementById('comment-count');
+        countEl.textContent = comments.length;
+        var listEl = document.getElementById('comment-list');
+        if (comments.length === 0) {
+            listEl.innerHTML = '<div class="comment-empty">댓글이 없습니다.</div>';
+            return;
+        }
+        var html = '';
+        comments.forEach(function(c, idx){
+            html += '<div class="comment-item">'
+                + '<div class="comment-header">'
+                + '<span class="comment-author">'+escapeHtml(c.author)+'</span>'
+                + '<span class="comment-date">'+formatDate(c.createdAt)+'</span>'
+                + '<button class="comment-delete" onclick="boardDeleteComment('+idx+')" title="삭제">&times;</button>'
+                + '</div>'
+                + '<div class="comment-body">'+escapeHtml(c.text)+'</div>'
+                + '</div>';
+        });
+        listEl.innerHTML = html;
+    }
+
+    // 댓글 등록
+    window.boardAddComment = function() {
+        if (!currentPostId) return;
+        var author = document.getElementById('comment-author').value.trim();
+        var text = document.getElementById('comment-text').value.trim();
+        if (!author) { alert('이름을 입력하세요.'); return; }
+        if (!text) { alert('댓글을 입력하세요.'); return; }
+
+        var posts = getPosts();
+        for (var i = 0; i < posts.length; i++) {
+            if (posts[i].id === currentPostId) {
+                if (!posts[i].comments) posts[i].comments = [];
+                posts[i].comments.push({ author: author, text: text, createdAt: Date.now() });
+                savePosts(posts);
+                localStorage.setItem('xdt_board_last_author', author);
+                document.getElementById('comment-text').value = '';
+                renderComments(posts[i]);
+                break;
+            }
+        }
+    };
+
+    // 댓글 삭제
+    window.boardDeleteComment = function(idx) {
+        if (!confirm('댓글을 삭제하시겠습니까?')) return;
+        var posts = getPosts();
+        for (var i = 0; i < posts.length; i++) {
+            if (posts[i].id === currentPostId) {
+                posts[i].comments.splice(idx, 1);
+                savePosts(posts);
+                renderComments(posts[i]);
+                break;
+            }
+        }
+    };
+
+    // 글 삭제
+    window.boardDeletePost = function(id) {
+        if (!confirm('게시글을 삭제하시겠습니까?')) return;
+        var posts = getPosts().filter(function(p){ return p.id !== id; });
+        savePosts(posts);
+        boardShowList();
+    };
+
+    // 에디터 서식
+    window.boardFormat = function(cmd) {
+        document.execCommand(cmd, false, null);
+        document.getElementById('board-content').focus();
+    };
+
+    // 초기 렌더링
+    renderList();
+})();
+</script>
