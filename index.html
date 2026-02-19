@@ -508,6 +508,13 @@
                     .then(function(html) {
                         section.innerHTML = html;
                         loadedSections[id] = true;
+                        // innerHTML로 삽입된 script 태그는 실행되지 않으므로 수동 실행
+                        var scripts = section.querySelectorAll('script');
+                        scripts.forEach(function(oldScript) {
+                            var newScript = document.createElement('script');
+                            newScript.textContent = oldScript.textContent;
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        });
                         if (typeof lucide !== 'undefined') lucide.createIcons();
                     })
                     .catch(function(err) {
